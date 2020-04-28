@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,8 @@
 		6DDFE1DB2458952000017A93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFE1DA2458952000017A93 /* Assets.xcassets */; };
 		6DDFE1DE2458952000017A93 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFE1DC2458952000017A93 /* LaunchScreen.storyboard */; };
 		6DDFE1E7245895F500017A93 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1E6245895F500017A93 /* Entry.swift */; };
+		6DDFE1EA245898E500017A93 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1E9245898E500017A93 /* CameraViewController.swift */; };
+		6DDFE1EC2458991B00017A93 /* EntriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1EB2458991B00017A93 /* EntriesViewController.swift */; };
 		8C2E3E6AC7748DAFFEC45576 /* Pods_Journal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86D15CF7B2BD1F7EEB29455 /* Pods_Journal.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,8 @@
 		6DDFE1DD2458952000017A93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6DDFE1DF2458952000017A93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DDFE1E6245895F500017A93 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		6DDFE1E9245898E500017A93 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		6DDFE1EB2458991B00017A93 /* EntriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewController.swift; sourceTree = "<group>"; };
 		7A741591D90F18E361AD4DE5 /* Pods-Journal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journal.debug.xcconfig"; path = "Target Support Files/Pods-Journal/Pods-Journal.debug.xcconfig"; sourceTree = "<group>"; };
 		A86D15CF7B2BD1F7EEB29455 /* Pods_Journal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -50,7 +54,6 @@
 				7A741591D90F18E361AD4DE5 /* Pods-Journal.debug.xcconfig */,
 				67591A01E9E5AEC4AAA93489 /* Pods-Journal.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -99,6 +102,8 @@
 		6DDFE1E82458971500017A93 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				6DDFE1E9245898E500017A93 /* CameraViewController.swift */,
+				6DDFE1EB2458991B00017A93 /* EntriesViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -227,9 +232,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DDFE1E7245895F500017A93 /* Entry.swift in Sources */,
+				6DDFE1EA245898E500017A93 /* CameraViewController.swift in Sources */,
 				6DDFE1D62458951900017A93 /* ViewController.swift in Sources */,
 				6DDFE1D22458951900017A93 /* AppDelegate.swift in Sources */,
 				6DDFE1D42458951900017A93 /* SceneDelegate.swift in Sources */,
+				6DDFE1EC2458991B00017A93 /* EntriesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
