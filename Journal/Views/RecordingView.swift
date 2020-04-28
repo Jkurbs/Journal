@@ -12,6 +12,7 @@ class RecordingView: UIView {
     
     let label = UILabel()
     let dotView = UIView()
+    var timer: Timer!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,12 +36,33 @@ class RecordingView: UIView {
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         label.textColor = .cloud
         label.text = "Rec".capitalized
-        
         addSubview(label)
         
         dotView.translatesAutoresizingMaskIntoConstraints = false
-        dotView.backgroundColor = .systemRed
+        dotView.backgroundColor = .red
         addSubview(dotView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(recordingStarted), name: .startRecordingNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(recordingStoped), name: .stopRecordingNotification, object: nil)
+        
+    }
+    
+    @objc func recordingStarted() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
+            UIView.animate(withDuration: 1.0, animations: {
+                self.dotView.alpha = 0.2
+            }) { (finished) in
+                UIView.animate(withDuration: 1.0, animations: {
+                    self.dotView.alpha = 1.0
+                })
+            }
+        }
+    }
+    
+    @objc func recordingStoped() {
+        timer.invalidate()
+        self.dotView.isHidden = true
+        self.label.isHidden = true 
     }
     
     private func setupConstraints() {
