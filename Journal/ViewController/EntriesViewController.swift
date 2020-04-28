@@ -29,6 +29,7 @@ class EntriesViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
         label.textColor = .cloud
         view.addSubview(label)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,4 +61,7 @@ extension EntriesViewController: CurtainDelegate {
         }
     }
     
+    func curtainWillBeginDragging(_ curtain: Curtain) {
+        
+    }
 }

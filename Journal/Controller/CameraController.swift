@@ -28,6 +28,7 @@ class CameraController: NSObject {
     private let audioEngine = AVAudioEngine()
     
     func setUpCaptureSession() {
+        
         captureSession.beginConfiguration()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
@@ -37,7 +38,8 @@ class CameraController: NSObject {
         // Video
         guard let captureInput = try? AVCaptureDeviceInput(device: camera),
             captureSession.canAddInput(captureInput) else {
-                fatalError("Can't create the input form the camera")
+                return
+//                fatalError("Can't create the input form the camera")
         }
         captureSession.addInput(captureInput)
         
@@ -55,15 +57,16 @@ class CameraController: NSObject {
         
         guard let audioInput = try? AVCaptureDeviceInput(device: microphone),
             captureSession.canAddInput(audioInput) else {
-                
-                fatalError("Can't create microphone input")
+//                fatalError("Can't create microphone input")
+            return
         }
         captureSession.addInput(audioInput)
         self.audioInput = audioInput
         
         // Recording to disk
         guard captureSession.canAddOutput(fileOutput) else {
-            fatalError("Cannot record to disk")
+//            fatalError("Cannot record to disk")
+            return 
         }
         captureSession.addOutput(fileOutput)
         

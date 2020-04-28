@@ -24,14 +24,35 @@ class CameraView: UIView {
         set { videoPlayerView.session = newValue }
     }
     
+    var recordButtonView = RecordButtonView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
     }
     
-    func setupView() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .midnight
+        addSubview(recordButtonView)
+    }
+    
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupConstraints()
+
+    }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            recordButtonView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            recordButtonView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -120.0),
+            recordButtonView.widthAnchor.constraint(equalToConstant: 80.0),
+            recordButtonView.heightAnchor.constraint(equalToConstant: 80.0),
+        ])
+        recordButtonView.layer.cornerRadius = recordButtonView.bounds.size.width/2
     }
     
     required init?(coder: NSCoder) {
