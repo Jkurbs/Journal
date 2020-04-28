@@ -20,7 +20,7 @@ class EntriesViewController: UIViewController {
     
     func setupViews() {
         view.backgroundColor = .blue
-        view.layer.cornerRadius = 10.0
+        self.navigationController?.view.layer.cornerRadius = 10.0
     }
 }
 
