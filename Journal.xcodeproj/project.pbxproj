@@ -16,6 +16,7 @@
 		6DDFE1EA245898E500017A93 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1E9245898E500017A93 /* CameraViewController.swift */; };
 		6DDFE1EC2458991B00017A93 /* EntriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1EB2458991B00017A93 /* EntriesViewController.swift */; };
 		6DDFE1EF24589D0C00017A93 /* UIColor+Pallete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1EE24589D0C00017A93 /* UIColor+Pallete.swift */; };
+		6DDFE1F22458A0FC00017A93 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1F12458A0FC00017A93 /* CameraView.swift */; };
 		8C2E3E6AC7748DAFFEC45576 /* Pods_Journal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86D15CF7B2BD1F7EEB29455 /* Pods_Journal.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		6DDFE1E9245898E500017A93 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		6DDFE1EB2458991B00017A93 /* EntriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewController.swift; sourceTree = "<group>"; };
 		6DDFE1EE24589D0C00017A93 /* UIColor+Pallete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Pallete.swift"; sourceTree = "<group>"; };
+		6DDFE1F12458A0FC00017A93 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		7A741591D90F18E361AD4DE5 /* Pods-Journal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journal.debug.xcconfig"; path = "Target Support Files/Pods-Journal/Pods-Journal.debug.xcconfig"; sourceTree = "<group>"; };
 		A86D15CF7B2BD1F7EEB29455 /* Pods_Journal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -78,6 +80,7 @@
 		6DDFE1D02458951900017A93 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				6DDFE1F02458A0DD00017A93 /* Views */,
 				6DDFE1ED24589CF800017A93 /* Extension */,
 				6DDFE1E82458971500017A93 /* ViewController */,
 				6DDFE1E5245895E700017A93 /* Model */,
@@ -114,6 +117,14 @@
 				6DDFE1EE24589D0C00017A93 /* UIColor+Pallete.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		6DDFE1F02458A0DD00017A93 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6DDFE1F12458A0FC00017A93 /* CameraView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8E2E12C51CF88197EB577F15 /* Frameworks */ = {
@@ -240,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DDFE1E7245895F500017A93 /* Entry.swift in Sources */,
+				6DDFE1F22458A0FC00017A93 /* CameraView.swift in Sources */,
 				6DDFE1EA245898E500017A93 /* CameraViewController.swift in Sources */,
 				6DDFE1EF24589D0C00017A93 /* UIColor+Pallete.swift in Sources */,
 				6DDFE1D22458951900017A93 /* AppDelegate.swift in Sources */,
