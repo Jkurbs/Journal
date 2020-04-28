@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6DB288072458D9E2009310F7 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB288062458D9E2009310F7 /* RecordingView.swift */; };
 		6DDFE1D22458951900017A93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1D12458951900017A93 /* AppDelegate.swift */; };
 		6DDFE1D42458951900017A93 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1D32458951900017A93 /* SceneDelegate.swift */; };
 		6DDFE1D92458951900017A93 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFE1D72458951900017A93 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		67591A01E9E5AEC4AAA93489 /* Pods-Journal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journal.release.xcconfig"; path = "Target Support Files/Pods-Journal/Pods-Journal.release.xcconfig"; sourceTree = "<group>"; };
+		6DB288062458D9E2009310F7 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		6DDFE1CE2458951900017A93 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DDFE1D12458951900017A93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DDFE1D32458951900017A93 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				6DDFE1F12458A0FC00017A93 /* CameraView.swift */,
 				6DDFE1FA2458BCB400017A93 /* RecordButtonView.swift */,
 				6DDFE1F62458A76900017A93 /* MediaAccessView.swift */,
+				6DB288062458D9E2009310F7 /* RecordingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 			files = (
 				6DDFE1E7245895F500017A93 /* Entry.swift in Sources */,
 				6DDFE1F72458A76900017A93 /* MediaAccessView.swift in Sources */,
+				6DB288072458D9E2009310F7 /* RecordingView.swift in Sources */,
 				6DDFE1F22458A0FC00017A93 /* CameraView.swift in Sources */,
 				6DDFE1F92458B9CA00017A93 /* Notification+String.swift in Sources */,
 				6DDFE1EA245898E500017A93 /* CameraViewController.swift in Sources */,

@@ -12,7 +12,7 @@ class RecordButtonView: UIView {
     
     let recordButton = UIButton()
     let blurredEffectView = UIVisualEffectView()
-    let switchSideButton = UIButton()
+    let rotationButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,9 +44,10 @@ class RecordButtonView: UIView {
         let circleImage = UIImage(systemName: "arrow.2.circlepath")!
         let whiteCircleimage = circleImage.withTintColor(.cloud, renderingMode: .alwaysOriginal)
         
-        switchSideButton.translatesAutoresizingMaskIntoConstraints = false
-        switchSideButton.setImage(whiteCircleimage, for: .normal)
-        addSubview(switchSideButton)
+        rotationButton.translatesAutoresizingMaskIntoConstraints = false
+        rotationButton.setImage(whiteCircleimage, for: .normal)
+        
+        addSubview(rotationButton)
     }
     
     @objc private func startRecording() {
@@ -65,10 +66,10 @@ class RecordButtonView: UIView {
             recordButton.heightAnchor.constraint(equalTo: blurredEffectView.heightAnchor, constant: -30),
             recordButton.widthAnchor.constraint(equalTo: recordButton.heightAnchor),
             
-            switchSideButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            switchSideButton.leftAnchor.constraint(equalTo: rightAnchor, constant: -16.0),
-            switchSideButton.widthAnchor.constraint(equalToConstant: 30),
-            switchSideButton.heightAnchor.constraint(equalToConstant: 30)
+            rotationButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            rotationButton.leftAnchor.constraint(equalTo: rightAnchor, constant: -16.0),
+            rotationButton.widthAnchor.constraint(equalToConstant: 30),
+            rotationButton.heightAnchor.constraint(equalToConstant: 30)
         ])
         recordButton.layer.cornerRadius = recordButton.bounds.size.width/2
         blurredEffectView.layer.cornerRadius = blurredEffectView.bounds.size.width/2

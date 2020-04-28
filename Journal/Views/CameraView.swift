@@ -24,7 +24,9 @@ class CameraView: UIView {
         set { videoPlayerView.session = newValue }
     }
     
+    var recordingView = RecordingView()
     var recordButtonView = RecordButtonView()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,10 +36,9 @@ class CameraView: UIView {
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .midnight
+        addSubview(recordingView)
         addSubview(recordButtonView)
-    }
-    
-    
+    }    
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -47,6 +48,12 @@ class CameraView: UIView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            
+            recordingView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16.0),
+            recordingView.leftAnchor.constraint(equalTo: leftAnchor, constant: 24.0),
+            recordingView.widthAnchor.constraint(equalToConstant: 100),
+            recordingView.heightAnchor.constraint(equalToConstant: 50.0),
+            
             recordButtonView.centerXAnchor.constraint(equalTo: centerXAnchor),
             recordButtonView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -120.0),
             recordButtonView.widthAnchor.constraint(equalToConstant: 200.0),
