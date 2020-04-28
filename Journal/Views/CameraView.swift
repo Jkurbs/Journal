@@ -49,10 +49,9 @@ class CameraView: UIView {
         NSLayoutConstraint.activate([
             recordButtonView.centerXAnchor.constraint(equalTo: centerXAnchor),
             recordButtonView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -120.0),
-            recordButtonView.widthAnchor.constraint(equalToConstant: 80.0),
-            recordButtonView.heightAnchor.constraint(equalToConstant: 80.0),
+            recordButtonView.widthAnchor.constraint(equalToConstant: 200.0),
+            recordButtonView.heightAnchor.constraint(equalToConstant: 100.0),
         ])
-        recordButtonView.layer.cornerRadius = recordButtonView.bounds.size.width/2
     }
     
     required init?(coder: NSCoder) {

@@ -11,4 +11,6 @@ import Foundation
 extension Notification.Name {
     static let requestCameraNotification = Notification.Name("requestCameraNotification")
     static let requestAudioNotification = Notification.Name("requestAudioNotification")
+    static let startRecordingNotification = Notification.Name("startRecordingNotification")
+
 }

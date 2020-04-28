@@ -12,6 +12,7 @@ class RecordButtonView: UIView {
     
     let recordButton = UIButton()
     let blurredEffectView = UIVisualEffectView()
+    let switchSideButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,7 +31,6 @@ class RecordButtonView: UIView {
     private func setupViews() {
         
         translatesAutoresizingMaskIntoConstraints = false
-        
         let blurEffect = UIBlurEffect(style: .regular)
         blurredEffectView.effect = blurEffect
         blurredEffectView.translatesAutoresizingMaskIntoConstraints = false
@@ -39,23 +39,36 @@ class RecordButtonView: UIView {
         recordButton.backgroundColor = .cloud
         recordButton.translatesAutoresizingMaskIntoConstraints = false
         recordButton.addTarget(self, action: #selector(startRecording), for: .touchUpInside)
-        
         addSubview(recordButton)
+        
+        let circleImage = UIImage(systemName: "arrow.2.circlepath")!
+        let whiteCircleimage = circleImage.withTintColor(.cloud, renderingMode: .alwaysOriginal)
+        
+        switchSideButton.translatesAutoresizingMaskIntoConstraints = false
+        switchSideButton.setImage(whiteCircleimage, for: .normal)
+        addSubview(switchSideButton)
     }
     
     @objc private func startRecording() {
-        
+        NotificationCenter.default.post(name: .startRecordingNotification, object: nil)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            blurredEffectView.heightAnchor.constraint(equalTo: heightAnchor),
-            blurredEffectView.widthAnchor.constraint(equalTo: widthAnchor),
+            blurredEffectView.heightAnchor.constraint(equalTo: heightAnchor, constant: -20),
+            blurredEffectView.widthAnchor.constraint(equalTo: blurredEffectView.heightAnchor),
+            blurredEffectView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            blurredEffectView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             recordButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             recordButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            recordButton.heightAnchor.constraint(equalTo:heightAnchor, constant: -30),
-            recordButton.widthAnchor.constraint(equalTo: widthAnchor, constant: -30),
+            recordButton.heightAnchor.constraint(equalTo: blurredEffectView.heightAnchor, constant: -30),
+            recordButton.widthAnchor.constraint(equalTo: recordButton.heightAnchor),
+            
+            switchSideButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            switchSideButton.leftAnchor.constraint(equalTo: rightAnchor, constant: -16.0),
+            switchSideButton.widthAnchor.constraint(equalToConstant: 30),
+            switchSideButton.heightAnchor.constraint(equalToConstant: 30)
         ])
         recordButton.layer.cornerRadius = recordButton.bounds.size.width/2
         blurredEffectView.layer.cornerRadius = blurredEffectView.bounds.size.width/2
