@@ -12,7 +12,13 @@ import SweetCurtain
 class EntriesViewController: UIViewController {
     
     var label = UILabel()
+    var button = UIButton()
+    lazy var collectionView = UICollectionView()
+    var entries = [Entry]()
+    var heightConstraintValue: CGFloat = 200
 
+    var collectionViewHeightConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -25,11 +31,36 @@ class EntriesViewController: UIViewController {
         self.navigationController?.view.layer.cornerRadius = 10.0
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
+        
+        let font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        label.font = font
         label.textColor = .cloud
         view.addSubview(label)
         
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.titleLabel?.font = font
+        view.addSubview(button)
+
+        let layout = UICollectionViewFlowLayout()
+        let width = (view.frame.width / 3) - 10
+        layout.itemSize = CGSize(width: width, height: width + 20)
+        layout.sectionInset = UIEdgeInsets(top: 25, left: 0, bottom: 50, right: 0)
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 10
+        layout.scrollDirection = .horizontal
+        
+        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        /// Setup tableview datasource/delegate
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .darkness
+        collectionView.register(EntryCell.self, forCellWithReuseIdentifier: EntryCell.id)
+        view.addSubview(collectionView)
     }
     
     override func viewDidLayoutSubviews() {
@@ -39,8 +70,16 @@ class EntriesViewController: UIViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 24.0),
-            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0)
+            
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 16.0),
+            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0),
+            
+            button.centerYAnchor.constraint(equalTo: label.centerYAnchor),
+            button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0),
+            
+            collectionView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8.0),
+            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
 }
@@ -52,10 +91,21 @@ extension EntriesViewController: CurtainDelegate {
         switch heightState {
         case .min:
             label.text = nil
+            button.setTitle("", for: .normal)
         case .mid:
-            label.text = "Continue where you left off."
+            label.text = "5 entries"
+            button.setTitle("Add to Journal", for: .normal)
+            guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+            let width = (view.frame.width / 3) - 10
+            layout.itemSize = CGSize(width: width, height: width + 20)
+            layout.prepare()
+            layout.invalidateLayout()
         case .max:
             label.text = "All Entries"
+            guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+            layout.itemSize = CGSize(width: view.frame.width - 20, height: 150)
+            layout.prepare()
+            layout.invalidateLayout()
         default:
             break
         }
@@ -63,5 +113,22 @@ extension EntriesViewController: CurtainDelegate {
     
     func curtainWillBeginDragging(_ curtain: Curtain) {
         
+    }
+}
+
+extension EntriesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EntryCell.id, for: indexPath) as! EntryCell
+        cell.backgroundColor = .cloud
+        return cell
     }
 }

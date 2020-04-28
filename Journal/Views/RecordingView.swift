@@ -32,9 +32,10 @@ class RecordingView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         label.textColor = .cloud
         label.text = "Rec".capitalized
+        
         addSubview(label)
         
         dotView.translatesAutoresizingMaskIntoConstraints = false

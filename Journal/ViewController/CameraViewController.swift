@@ -20,6 +20,14 @@ class CameraViewController: UIViewController {
     
     // MARK: - View Lifecycle
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
