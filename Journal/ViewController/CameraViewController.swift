@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import AVFoundation
 
 class CameraViewController: UIViewController {
+    
+    lazy var cameraController = CameraController()
+    lazy var cameraView = CameraView()
+    private var player: AVPlayer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +23,18 @@ class CameraViewController: UIViewController {
     // MARK: - Functions
     
     func setupViews() {
-        view.backgroundColor = .red
+        
+        view.backgroundColor = .white
+        view.addSubview(cameraView)
+        
+        cameraView.videoPlayerView.videoGravity = .resizeAspectFill
+        cameraView.session = cameraController.captureSession
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            cameraView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            cameraView.heightAnchor.constraint(equalTo: view.heightAnchor)
+        ])
     }
 }

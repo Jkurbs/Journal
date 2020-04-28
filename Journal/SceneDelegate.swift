@@ -37,6 +37,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         curtainController.curtain.midHeightCoefficient = 0.3
         curtainController.curtain.minHeightCoefficient = 0.1
         
+        curtainController.curtain.handleIndicatorColor = .cloud
+        
         curtainController.curtainDelegate = entriesViewController
         
         self.window?.rootViewController = curtainController
