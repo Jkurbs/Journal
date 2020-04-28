@@ -1,0 +1,30 @@
+PODS:
+  - IGListDiffKit (4.0.0)
+  - IGListKit (4.0.0):
+    - IGListDiffKit (= 4.0.0)
+  - SDWebImage (5.5.2):
+    - SDWebImage/Core (= 5.5.2)
+  - SDWebImage/Core (5.5.2)
+  - SweetCurtain (0.1.2)
+
+DEPENDENCIES:
+  - IGListKit (~> 4.0.0)
+  - SDWebImage (~> 5.0)
+  - SweetCurtain
+
+SPEC REPOS:
+  trunk:
+    - IGListDiffKit
+    - IGListKit
+    - SDWebImage
+    - SweetCurtain
+
+SPEC CHECKSUMS:
+  IGListDiffKit: 665d6cf43ce726e676013db9c7d6c4294259b6b2
+  IGListKit: fd5a5d21935298f5849fa49d426843cff97b77c7
+  SDWebImage: 4d5c027c935438f341ed33dbac53ff9f479922ca
+  SweetCurtain: 71e5680b08e1406fded312b00a7477a98f4f2a98
+
+PODFILE CHECKSUM: 1399319b71c0de955e8aebef3a75338113c8af1f
+
+COCOAPODS: 1.8.4
