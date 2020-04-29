@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SweetCurtain
 import AVFoundation
 
 class CameraViewController: UIViewController {
@@ -19,11 +20,7 @@ class CameraViewController: UIViewController {
     private var player: AVPlayer!
     
     // MARK: - View Lifecycle
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -54,7 +51,7 @@ class CameraViewController: UIViewController {
     func verifyCameraPermission() {
         if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
             //already authorized
-            //            mediaAccessView.removeFromSuperview()
+
         } else {
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
                 if granted {
@@ -76,23 +73,26 @@ class CameraViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = .black
         
-        cameraController.setUpCaptureSession()
+//        cameraController.setUpCaptureSession()
         cameraView.videoPlayerView.videoGravity = .resizeAspectFill
         cameraView.session = cameraController.captureSession
         
         view.addSubview(mediaAccessView)
         view.addSubview(cameraView)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(startRecording), name: .startRecordingNotification, object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraAccess), name: .requestCameraNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraRotation), name: .rotateCameraNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeViewAlpha(_:)), name:  NSNotification.Name("test"), object: nil)
+        
+
     }
     
     @objc func changeViewAlpha(_ notification: Notification) {
-        if let info = notification.userInfo {
-            let alpha = info["alpha"] as! CGFloat
+        if let info = notification.userInfo, let alpha = info["alpha"] as? CGFloat {
             if alpha > 0.7 {
                 UIView.animate(withDuration: 0.5) {
                     self.cameraView.alpha = 0.0
@@ -103,6 +103,10 @@ class CameraViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc func startRecording() {
+        cameraController.startRecording()
     }
     
     @objc func requestCameraRotation() {
@@ -124,4 +128,8 @@ class CameraViewController: UIViewController {
             cameraView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
     }
+}
+
+extension CameraViewController: CurtainDelegate {
+    
 }

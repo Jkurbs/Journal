@@ -8,6 +8,7 @@
 
 import UIKit
 import SweetCurtain
+import PXSiriWave
 
 class EntriesViewController: UIViewController {
     
@@ -15,9 +16,10 @@ class EntriesViewController: UIViewController {
     var button = UIButton()
     lazy var collectionView = UICollectionView()
     var entries = [Entry]()
-    var heightConstraintValue: CGFloat = 200
-
-    var collectionViewHeightConstraint: NSLayoutConstraint!
+    var heightConstraint: CGFloat = 200
+    var collectionViewHeightConstraint: NSLayoutConstraint?
+    
+    var textView = UITextView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +32,6 @@ class EntriesViewController: UIViewController {
         view.backgroundColor = .darkness
         self.navigationController?.view.layer.cornerRadius = 10.0
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
         
         let font = UIFont.systemFont(ofSize: 13, weight: .bold)
         
@@ -52,7 +53,7 @@ class EntriesViewController: UIViewController {
         layout.minimumInteritemSpacing = 10
         layout.scrollDirection = .horizontal
         
-        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
@@ -62,13 +63,18 @@ class EntriesViewController: UIViewController {
         collectionView.register(EntryCell.self, forCellWithReuseIdentifier: EntryCell.id)
         view.addSubview(collectionView)
         
-//        let image = UIImage(named: "image")?.jpegData(compressionQuality: 1.0)
-//        entries = [Entry(url: "", text: "This is a test", sentiment: "Happy", date: "", thumbnail: image)]
+        textView.frame = CGRect(x: 0, y: 350, width: view.frame.width, height: 500)
+        textView.backgroundColor = .darkness
+        textView.textColor = .white
+        textView.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        view.addSubview(textView)
+        
+        setupConstraints()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setupConstraints()
+       
     }
     
     func setupConstraints() {
@@ -82,8 +88,9 @@ class EntriesViewController: UIViewController {
             
             collectionView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8.0),
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 200)
         ])
+        collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 200)
+        collectionViewHeightConstraint?.isActive = true
     }
 }
 
@@ -103,19 +110,29 @@ extension EntriesViewController: CurtainDelegate {
             layout.itemSize = CGSize(width: width, height: width + 20)
             layout.prepare()
             layout.invalidateLayout()
+            UIView.animate(withDuration: 0.3) {
+                self.collectionViewHeightConstraint?.constant = 200
+                self.collectionView.layoutIfNeeded()
+            }
+            
         case .max:
             label.text = "All Entries"
             guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-            layout.itemSize = CGSize(width: view.frame.width - 20, height: 150)
+            let width = (view.frame.width) - 15
+            layout.itemSize = CGSize(width: width, height: 250)
             layout.prepare()
             layout.invalidateLayout()
+            let height = self.collectionView.collectionViewLayout.collectionViewContentSize.height
+            UIView.animate(withDuration: 0.3) {
+                self.collectionViewHeightConstraint?.constant = height + 100
+                self.collectionView.layoutIfNeeded()
+            }
         default:
             break
         }
     }
     
     func curtainDidDrag(_ curtain: Curtain) {
-        print("CURTAIN HEIGHT COEFFICIENT: \(curtain.heightCoefficient)")
         NotificationCenter.default.post(name: NSNotification.Name("test"), object: nil, userInfo: ["alpha": curtain.heightCoefficient])
     }
 }

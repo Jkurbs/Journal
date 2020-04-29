@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D05E4B82459E39000071BBF /* VoiceWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D05E4B72459E39000071BBF /* VoiceWaveView.swift */; };
+		6D390CEB2459B40E00F367D2 /* SpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D390CEA2459B40E00F367D2 /* SpeechViewController.swift */; };
 		6DB288072458D9E2009310F7 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB288062458D9E2009310F7 /* RecordingView.swift */; };
 		6DB2880A2458E30B009310F7 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB288092458E30B009310F7 /* EntryCell.swift */; };
 		6DDFE1D22458951900017A93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1D12458951900017A93 /* AppDelegate.swift */; };
@@ -28,6 +30,8 @@
 
 /* Begin PBXFileReference section */
 		67591A01E9E5AEC4AAA93489 /* Pods-Journal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journal.release.xcconfig"; path = "Target Support Files/Pods-Journal/Pods-Journal.release.xcconfig"; sourceTree = "<group>"; };
+		6D05E4B72459E39000071BBF /* VoiceWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceWaveView.swift; sourceTree = "<group>"; };
+		6D390CEA2459B40E00F367D2 /* SpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechViewController.swift; sourceTree = "<group>"; };
 		6DB288062458D9E2009310F7 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		6DB288092458E30B009310F7 /* EntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCell.swift; sourceTree = "<group>"; };
 		6DDFE1CE2458951900017A93 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +73,14 @@
 				67591A01E9E5AEC4AAA93489 /* Pods-Journal.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		6D05E4B62459E37E00071BBF /* Voice */ = {
+			isa = PBXGroup;
+			children = (
+				6D05E4B72459E39000071BBF /* VoiceWaveView.swift */,
+			);
+			path = Voice;
 			sourceTree = "<group>";
 		};
 		6DB288082458E2FF009310F7 /* Cells */ = {
@@ -139,6 +151,7 @@
 			children = (
 				6DDFE1E9245898E500017A93 /* CameraViewController.swift */,
 				6DDFE1EB2458991B00017A93 /* EntriesViewController.swift */,
+				6D390CEA2459B40E00F367D2 /* SpeechViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -155,6 +168,7 @@
 		6DDFE1F02458A0DD00017A93 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6D05E4B62459E37E00071BBF /* Voice */,
 				6DB288082458E2FF009310F7 /* Cells */,
 				6DB2880B245925E3009310F7 /* Camera */,
 			);
@@ -294,6 +308,7 @@
 			files = (
 				6DDFE1E7245895F500017A93 /* Entry.swift in Sources */,
 				6DDFE1F72458A76900017A93 /* MediaAccessView.swift in Sources */,
+				6D390CEB2459B40E00F367D2 /* SpeechViewController.swift in Sources */,
 				6DB288072458D9E2009310F7 /* RecordingView.swift in Sources */,
 				6DDFE1F22458A0FC00017A93 /* CameraView.swift in Sources */,
 				6DDFE1F92458B9CA00017A93 /* Notification+String.swift in Sources */,
@@ -303,6 +318,7 @@
 				6DDFE1D22458951900017A93 /* AppDelegate.swift in Sources */,
 				6DB2880A2458E30B009310F7 /* EntryCell.swift in Sources */,
 				6DDFE1D42458951900017A93 /* SceneDelegate.swift in Sources */,
+				6D05E4B82459E39000071BBF /* VoiceWaveView.swift in Sources */,
 				6DDFE1F52458A3AC00017A93 /* CameraController.swift in Sources */,
 				6DDFE1EC2458991B00017A93 /* EntriesViewController.swift in Sources */,
 			);

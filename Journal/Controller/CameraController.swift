@@ -195,9 +195,6 @@ class CameraController: NSObject {
             }
         }
         captureSession.addInput(deviceInput)
-        
-        
-        
     }
     
     // Find a camera with the specified AVCaptureDevicePosition, returning nil if one is not found
@@ -222,16 +219,18 @@ class CameraController: NSObject {
         }
         return nil
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
     func startRecording() {
-        
+        if audioEngine.isRunning {
+            audioEngine.stop()
+            recognitionRequest?.endAudio()
+        } else {
+            do {
+                try startSpeechRecording()
+            } catch {
+                print("Error with speech: \(error)")
+            }
+        }
     }
     
     

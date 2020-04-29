@@ -28,9 +28,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let cameraViewController = CameraViewController()
         let entriesViewController = EntriesViewController()
-        let navigationContronller = UINavigationController(rootViewController: entriesViewController)
+        let navigationController = UINavigationController(rootViewController: entriesViewController)
         
-        let curtainController = CurtainController(content:cameraViewController , curtain: navigationContronller)
+        let curtainController = CurtainController(content:cameraViewController , curtain: navigationController)
         
         curtainController.curtain.maxHeightCoefficient = 1.0
         curtainController.curtain.midHeightCoefficient = 0.3

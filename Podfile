@@ -9,6 +9,9 @@ target 'Journal' do
   pod 'IGListKit', '~> 4.0.0'
   pod 'SDWebImage', '~> 5.0'
   pod 'Shimmer'
+  pod 'PXSiriWave', '~> 0.0.2'
+
+
   
   # Pods for Journal
 
