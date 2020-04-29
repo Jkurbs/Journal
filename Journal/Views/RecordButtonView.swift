@@ -10,9 +10,14 @@ import UIKit
 
 class RecordButtonView: UIView {
     
+    // MARK: - Properties
+    
     let recordButton = UIButton()
     let blurredEffectView = UIVisualEffectView()
     let rotationButton = UIButton()
+    var recordIsSelected = false
+    
+    var recordButtonImage: UIImage!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,6 +33,8 @@ class RecordButtonView: UIView {
         setupConstraints()
     }
     
+    // MARK: - Functions
+    
     private func setupViews() {
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -38,20 +45,36 @@ class RecordButtonView: UIView {
         
         recordButton.backgroundColor = .cloud
         recordButton.translatesAutoresizingMaskIntoConstraints = false
-        recordButton.addTarget(self, action: #selector(startRecording), for: .touchUpInside)
+        recordButton.addTarget(self, action: #selector(startRecording(_:)), for: .touchUpInside)
         addSubview(recordButton)
         
-        let circleImage = UIImage(systemName: "arrow.2.circlepath")!
+        let recordImageConfiguration = UIImage.SymbolConfiguration(scale: .large)
+        let recordButtonImage = UIImage(systemName: "app.fill", withConfiguration: recordImageConfiguration)!
+        self.recordButtonImage = recordButtonImage.withTintColor(UIColor.systemRed, renderingMode: .alwaysOriginal)
+
+        let configuration = UIImage.SymbolConfiguration(scale: .large)
+        let circleImage = UIImage(systemName: "arrow.2.circlepath", withConfiguration: configuration)!
         let whiteCircleimage = circleImage.withTintColor(.cloud, renderingMode: .alwaysOriginal)
         
         rotationButton.translatesAutoresizingMaskIntoConstraints = false
         rotationButton.setImage(whiteCircleimage, for: .normal)
-        
         addSubview(rotationButton)
     }
     
-    @objc private func startRecording() {
-        NotificationCenter.default.post(name: .startRecordingNotification, object: nil)
+    @objc private func startRecording(_ sender: UIButton) {
+        if recordIsSelected == true {
+            recordIsSelected = false
+            sender.setImage(nil, for: .normal)
+            NotificationCenter.default.post(name: .stopRecordingNotification, object: nil)
+        } else {
+            recordIsSelected = true
+            sender.setImage(recordButtonImage, for: .normal)
+            NotificationCenter.default.post(name: .startRecordingNotification, object: nil)
+        }
+    }
+    
+    @objc private func rotateCamera() {
+        NotificationCenter.default.post(name: .rotateCameraNotification, object: nil)
     }
     
     private func setupConstraints() {

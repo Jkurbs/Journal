@@ -44,7 +44,6 @@ class RecordingView: UIView {
         
         NotificationCenter.default.addObserver(self, selector: #selector(recordingStarted), name: .startRecordingNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(recordingStoped), name: .stopRecordingNotification, object: nil)
-        
     }
     
     @objc func recordingStarted() {
@@ -61,8 +60,6 @@ class RecordingView: UIView {
     
     @objc func recordingStoped() {
         timer.invalidate()
-        self.dotView.isHidden = true
-        self.label.isHidden = true 
     }
     
     private func setupConstraints() {
@@ -74,9 +71,7 @@ class RecordingView: UIView {
             dotView.leftAnchor.constraint(equalTo: label.rightAnchor, constant: 8.0),
             dotView.heightAnchor.constraint(equalToConstant: 10),
             dotView.widthAnchor.constraint(equalToConstant: 10)
-            
         ])
-        
         dotView.layer.cornerRadius = dotView.bounds.size.width/2
     }
 }

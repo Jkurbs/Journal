@@ -34,16 +34,31 @@ class CameraView: UIView {
     }
     
     private func setupView() {
+        
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .midnight
         addSubview(recordingView)
+        
+        recordingView.isHidden = true
         addSubview(recordButtonView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(recordingStarted), name: .startRecordingNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(recordingStoped), name: .stopRecordingNotification, object: nil)
     }    
     
     override func layoutSubviews() {
         super.layoutSubviews()
         setupConstraints()
 
+    }
+    
+    @objc func recordingStarted() {
+        print("RECORDING STARTED")
+        recordingView.isHidden = false
+    }
+    
+    @objc func recordingStoped() {
+        recordingView.isHidden = true
     }
     
     private func setupConstraints() {

@@ -70,7 +70,7 @@
 	<string>$(PRODUCT_NAME) needs access to your location to add location.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Speech recognition will be used to determine which words you speak into the device&apos;s microphone.</string>
-	<key>UIStatusBarHidden</key>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>
 </plist>

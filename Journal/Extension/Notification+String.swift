@@ -13,6 +13,5 @@ extension Notification.Name {
     static let requestAudioNotification = Notification.Name("requestAudioNotification")
     static let startRecordingNotification = Notification.Name("startRecordingNotification")
     static let stopRecordingNotification = Notification.Name("stopRecordingNotification")
-
-
+    static let rotateCameraNotification = Notification.Name("rotateCameraNotification")
 }

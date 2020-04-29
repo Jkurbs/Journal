@@ -47,15 +47,15 @@ class EntriesViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let width = (view.frame.width / 3) - 10
         layout.itemSize = CGSize(width: width, height: width + 20)
-        layout.sectionInset = UIEdgeInsets(top: 25, left: 0, bottom: 50, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 25, left: 10, bottom: 50, right: 10)
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 10
         layout.scrollDirection = .horizontal
         
         collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        /// Setup tableview datasource/delegate
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .darkness
@@ -130,5 +130,10 @@ extension EntriesViewController: UICollectionViewDelegate, UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EntryCell.id, for: indexPath) as! EntryCell
         cell.backgroundColor = .cloud
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        curtainController?.moveCurtain(to: .max, animated: true)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
     }
 }
