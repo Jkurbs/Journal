@@ -21,6 +21,8 @@ class EntriesViewController: UIViewController {
     
     var textView = UITextView()
     
+    var voiceWaveView = VoiceWaveView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -33,17 +35,24 @@ class EntriesViewController: UIViewController {
         self.navigationController?.view.layer.cornerRadius = 10.0
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-        let font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        view.addSubview(voiceWaveView)
+
+
+//        let font = UIFont.systemFont(ofSize: 13, weight: .bold)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = font
-        label.textColor = .cloud
-        view.addSubview(label)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.font = font
+//        label.textColor = .cloud
+//        view.addSubview(label)
+//
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.setTitleColor(.systemBlue, for: .normal)
+//        button.titleLabel?.font = font
+//        view.addSubview(button)
+//
+//        label.isHidden = true
+//        button.isHidden = true
         
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(.systemBlue, for: .normal)
-        button.titleLabel?.font = font
-        view.addSubview(button)
 
         let layout = UICollectionViewFlowLayout()
         let width = (view.frame.width / 3) - 10
@@ -52,7 +61,7 @@ class EntriesViewController: UIViewController {
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 10
         layout.scrollDirection = .horizontal
-        
+
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -63,11 +72,11 @@ class EntriesViewController: UIViewController {
         collectionView.register(EntryCell.self, forCellWithReuseIdentifier: EntryCell.id)
         view.addSubview(collectionView)
         
-        textView.frame = CGRect(x: 0, y: 350, width: view.frame.width, height: 500)
-        textView.backgroundColor = .darkness
-        textView.textColor = .white
-        textView.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        view.addSubview(textView)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//            self.curtainController?.moveCurtain(to: .mid, animated: true)
+//        }
+
+        
         
         setupConstraints()
     }
@@ -80,13 +89,14 @@ class EntriesViewController: UIViewController {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 16.0),
-            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10.0),
+            voiceWaveView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8.0),
+            voiceWaveView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            voiceWaveView.heightAnchor.constraint(equalToConstant: 40),
             
-            button.centerYAnchor.constraint(equalTo: label.centerYAnchor),
-            button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0),
-            
-            collectionView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8.0),
+//            button.centerYAnchor.constraint(equalTo: label.centerYAnchor),
+//            button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0),
+//
+            collectionView.topAnchor.constraint(equalTo: voiceWaveView.bottomAnchor, constant: 0.0),
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
         ])
         collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 200)
@@ -97,14 +107,12 @@ class EntriesViewController: UIViewController {
 // MARK: - CurtainDelegate
 extension EntriesViewController: CurtainDelegate {
     
+    
     func curtain(_ curtain: Curtain, didChange heightState: CurtainHeightState) {
         switch heightState {
         case .min:
-            label.text = nil
-            button.setTitle("", for: .normal)
+            print("")
         case .mid:
-            label.text = "5 entries"
-            button.setTitle("Add to Journal", for: .normal)
             guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
             let width = (view.frame.width / 3) - 10
             layout.itemSize = CGSize(width: width, height: width + 20)
@@ -116,7 +124,6 @@ extension EntriesViewController: CurtainDelegate {
             }
             
         case .max:
-            label.text = "All Entries"
             guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
             let width = (view.frame.width) - 15
             layout.itemSize = CGSize(width: width, height: 250)
@@ -131,9 +138,9 @@ extension EntriesViewController: CurtainDelegate {
             break
         }
     }
-    
+
     func curtainDidDrag(_ curtain: Curtain) {
-        NotificationCenter.default.post(name: NSNotification.Name("test"), object: nil, userInfo: ["alpha": curtain.heightCoefficient])
+        NotificationCenter.default.post(name: .dimCameraNotification, object: nil, userInfo: ["alpha": curtain.heightCoefficient])
     }
 }
 

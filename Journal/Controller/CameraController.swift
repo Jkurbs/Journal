@@ -10,15 +10,19 @@ import Foundation
 import AVFoundation
 import UIKit
 import Speech
+import Accelerate
 
 class CameraController: NSObject {
     
     lazy var captureSession = AVCaptureSession()
     lazy var fileOutput = AVCaptureMovieFileOutput()
     let cameraOutput = AVCapturePhotoOutput()
+    var audioDataOutput: AVCaptureAudioDataOutput!
     
     var session: AVCaptureSession?
-    var videoPath: String?
+    var videoName: String?
+    var speech: String?
+
     
     var audioInput: AVCaptureDeviceInput?
     
@@ -26,7 +30,7 @@ class CameraController: NSObject {
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
-    
+
     func setUpCaptureSession() {
         
         captureSession.beginConfiguration()
@@ -60,16 +64,27 @@ class CameraController: NSObject {
                 //                fatalError("Can't create microphone input")
                 return
         }
+        
         captureSession.addInput(audioInput)
         self.audioInput = audioInput
         
+        audioDataOutput = AVCaptureAudioDataOutput()
+        
+        guard captureSession.canAddOutput(audioDataOutput) else {
+            return
+        }
+        
+        audioDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue.main)
+        captureSession.addOutput(audioDataOutput)
+        print("videodataoutput added")
+        
+
         // Recording to disk
         guard captureSession.canAddOutput(fileOutput) else {
             //            fatalError("Cannot record to disk")
             return 
         }
         captureSession.addOutput(fileOutput)
-        
         captureSession.commitConfiguration()
     }
     
@@ -86,6 +101,15 @@ class CameraController: NSObject {
         try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         let inputNode = audioEngine.inputNode
+        
+        let recordingFormat: AVAudioFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) {[weak self] (buffer:AVAudioPCMBuffer, when:AVAudioTime) in
+            guard let self = self else {
+                return
+            }
+            self.recognitionRequest?.append(buffer)
+        }
+        
         
         // Create and configure the speech recognition request.
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
@@ -106,8 +130,8 @@ class CameraController: NSObject {
             if let result = result {
                 // Update the text view with the results.
                 print("SPEECH: \(result.bestTranscription.formattedString)")
+                self.speech = result.bestTranscription.formattedString
                 isFinal = result.isFinal
-                print("Text \(result.bestTranscription.formattedString)")
             }
             
             if error != nil || isFinal {
@@ -119,17 +143,9 @@ class CameraController: NSObject {
                 self.recognitionTask = nil
             }
         }
-        
-        // Configure the microphone input.
-        let recordingFormat = inputNode.outputFormat(forBus: 0)
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
-            self.recognitionRequest?.append(buffer)
-        }
-        
         audioEngine.prepare()
         try audioEngine.start()
     }
-    
     
     func startCaptureSession() {
         captureSession.startRunning()
@@ -157,6 +173,7 @@ class CameraController: NSObject {
         if let device = AVCaptureDevice.default(for: .audio) {
             return device
         }
+        
         fatalError("No audio")
     }
     
@@ -188,7 +205,7 @@ class CameraController: NSObject {
             print(error.localizedDescription)
             return
         }
-
+        
         if let inputs = captureSession.inputs as? [AVCaptureDeviceInput] {
             for input in inputs {
                 captureSession.removeInput(input)
@@ -219,8 +236,18 @@ class CameraController: NSObject {
         }
         return nil
     }
-
+    
+    // Start recording
     func startRecording() {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+
+        let name = formatter.string(from: Date())
+        self.videoName = name
+        let fileURL = documentsDirectory.appendingPathComponent(name).appendingPathExtension("mov")
+        fileOutput.startRecording(to: fileURL, recordingDelegate: self)
+        
         if audioEngine.isRunning {
             audioEngine.stop()
             recognitionRequest?.endAudio()
@@ -233,10 +260,24 @@ class CameraController: NSObject {
         }
     }
     
+    func createThumbnailOfVideoFromFileURL(videoURL: String) -> UIImage? {
+        let asset = AVAsset(url: URL(string: videoURL)!)
+        let assetImgGenerate = AVAssetImageGenerator(asset: asset)
+        assetImgGenerate.appliesPreferredTrackTransform = true
+        let time = CMTimeMakeWithSeconds(Float64(1), preferredTimescale: 100)
+        do {
+            let img = try assetImgGenerate.copyCGImage(at: time, actualTime: nil)
+            let thumbnail = UIImage(cgImage: img)
+            return thumbnail
+        } catch {
+            return UIImage(named: "ico_placeholder")
+        }
+    }
     
     func stopRecording() {
         if fileOutput.isRecording {
             fileOutput.stopRecording()
+            recognitionRequest?.endAudio()
         }
     }
     
@@ -270,6 +311,22 @@ extension CameraController: AVCaptureFileOutputRecordingDelegate {
     
     func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
         
+    }
+}
+
+extension CameraController: AVCaptureAudioDataOutputSampleBufferDelegate {
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+                if output == audioDataOutput {
+                   print("AUDIO OUTPUT")
+                }
+        //        DispatchQueue.main.async {
+        //            print("DELEGATE")
+        //
+        //            let channel = connection.audioChannels[1];
+        //            let averagePowerLevel = channel.averagePowerLevel
+        //            print("AVERAGE POWER: \(averagePowerLevel)")
+        //        }
     }
 }
 

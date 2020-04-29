@@ -20,7 +20,7 @@ class CameraViewController: UIViewController {
     private var player: AVPlayer!
     
     // MARK: - View Lifecycle
-
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -51,7 +51,7 @@ class CameraViewController: UIViewController {
     func verifyCameraPermission() {
         if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
             //already authorized
-
+            
         } else {
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
                 if granted {
@@ -72,23 +72,21 @@ class CameraViewController: UIViewController {
     
     func setupViews() {
         view.backgroundColor = .black
-        
-//        cameraController.setUpCaptureSession()
+        cameraController.setUpCaptureSession()
         cameraView.videoPlayerView.videoGravity = .resizeAspectFill
         cameraView.session = cameraController.captureSession
         
         view.addSubview(mediaAccessView)
         view.addSubview(cameraView)
-        
+        addObservers()
+    }
+    
+    func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(startRecording), name: .startRecordingNotification, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(stopRecording), name: .stopRecordingNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraAccess), name: .requestCameraNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraRotation), name: .rotateCameraNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(changeViewAlpha(_:)), name:  NSNotification.Name("test"), object: nil)
-        
-
+        NotificationCenter.default.addObserver(self, selector: #selector(changeViewAlpha(_:)), name: .dimCameraNotification, object: nil)
     }
     
     @objc func changeViewAlpha(_ notification: Notification) {
@@ -107,6 +105,13 @@ class CameraViewController: UIViewController {
     
     @objc func startRecording() {
         cameraController.startRecording()
+    }
+    
+    @objc func stopRecording() {
+        let entry = Entry(name: cameraController.videoName!, speech: cameraController.speech ?? "Not speech detected", sentiment: "", date: Date())
+        print("ENTRY SPEECH: \(String(describing: entry.speech))")
+        print("ENTRY NAME: \(String(describing: entry.name))")
+        cameraController.stopRecording()
     }
     
     @objc func requestCameraRotation() {
@@ -128,8 +133,4 @@ class CameraViewController: UIViewController {
             cameraView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
     }
-}
-
-extension CameraViewController: CurtainDelegate {
-    
 }

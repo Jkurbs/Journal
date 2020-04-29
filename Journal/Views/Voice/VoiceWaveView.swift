@@ -13,9 +13,11 @@ class VoiceWaveView: UIView {
     
     let waveView = PXSiriWave()
     
-    var decibel: CGFloat? {
+    var decibel: Float? {
         didSet {
-            waveView.update(withLevel: decibel ?? 0.0)
+            DispatchQueue.main.async {
+                self.waveView.update(withLevel: CGFloat(self.decibel ?? 0.0))
+            }
         }
     }
     
@@ -34,12 +36,27 @@ class VoiceWaveView: UIView {
     }
     
     private func setupViews() {
+        backgroundColor = .white
+        translatesAutoresizingMaskIntoConstraints = false 
         waveView.translatesAutoresizingMaskIntoConstraints = false
         waveView.frequency = 1.5;
         waveView.amplitude = 0.01;
         waveView.intensity = 0.3;
         waveView.configure()
+        waveView.backgroundColor = .darkness
         addSubview(waveView)
+        
+        Timer.scheduledTimer(withTimeInterval: 0.11, repeats: true) { (timer) in
+            self.waveView.update(withLevel: 0.1)
+        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(test), name: NSNotification.Name("test2"), object: nil)
+    }
+    
+    @objc func test(_ notification: Notification) {
+        if let info = notification.userInfo, let decibel = info["decibel"] as? Float {
+            self.decibel = decibel
+        }
     }
     
     private func setupConstraints() {

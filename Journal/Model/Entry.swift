@@ -10,17 +10,15 @@ import Foundation
 
 class Entry: NSCoder {
     
-    var url: String!
-    var text: String!
+    var name: String!
+    var speech: String!
     var sentiment: String?
-    var date: String!
-    var thumbnail: Data!
+    var date: Date!
     
-    init(url: String, text: String, sentiment: String, date: String, thumbnail: Data) {
-        self.url = url
-        self.text = text
+    init(name: String, speech: String, sentiment: String, date: Date) {
+        self.name = name
+        self.speech = speech
         self.sentiment = sentiment
         self.date = date
-        self.thumbnail = thumbnail
     }
 }
