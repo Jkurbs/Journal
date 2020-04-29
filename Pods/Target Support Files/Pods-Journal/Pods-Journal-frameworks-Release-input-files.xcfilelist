@@ -2,4 +2,5 @@ ${PODS_ROOT}/Target Support Files/Pods-Journal/Pods-Journal-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/IGListDiffKit/IGListDiffKit.framework
 ${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
+${BUILT_PRODUCTS_DIR}/Shimmer/Shimmer.framework
 ${BUILT_PRODUCTS_DIR}/SweetCurtain/SweetCurtain.framework

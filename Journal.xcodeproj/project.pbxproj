@@ -79,6 +79,17 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		6DB2880B245925E3009310F7 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				6DDFE1F12458A0FC00017A93 /* CameraView.swift */,
+				6DDFE1FA2458BCB400017A93 /* RecordButtonView.swift */,
+				6DDFE1F62458A76900017A93 /* MediaAccessView.swift */,
+				6DB288062458D9E2009310F7 /* RecordingView.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		6DDFE1C52458951900017A93 = {
 			isa = PBXGroup;
 			children = (
@@ -145,10 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				6DB288082458E2FF009310F7 /* Cells */,
-				6DDFE1F12458A0FC00017A93 /* CameraView.swift */,
-				6DDFE1FA2458BCB400017A93 /* RecordButtonView.swift */,
-				6DDFE1F62458A76900017A93 /* MediaAccessView.swift */,
-				6DB288062458D9E2009310F7 /* RecordingView.swift */,
+				6DB2880B245925E3009310F7 /* Camera */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -8,8 +8,8 @@ target 'Journal' do
   pod 'SweetCurtain'
   pod 'IGListKit', '~> 4.0.0'
   pod 'SDWebImage', '~> 5.0'
-
-
+  pod 'Shimmer'
+  
   # Pods for Journal
 
 end

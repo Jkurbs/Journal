@@ -92,7 +92,7 @@ class RecordButtonView: UIView {
             recordButton.widthAnchor.constraint(equalTo: recordButton.heightAnchor),
             
             rotationButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            rotationButton.leftAnchor.constraint(equalTo: recordButton.rightAnchor, constant: 32.0),
+            rotationButton.leftAnchor.constraint(equalTo: recordButton.rightAnchor, constant: 40.0),
             rotationButton.widthAnchor.constraint(equalToConstant: 45),
             rotationButton.heightAnchor.constraint(equalToConstant: 45)
         ])
