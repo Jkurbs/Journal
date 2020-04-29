@@ -54,7 +54,7 @@ class CameraViewController: UIViewController {
     func verifyCameraPermission() {
         if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
             //already authorized
-//            mediaAccessView.removeFromSuperview()
+            //            mediaAccessView.removeFromSuperview()
         } else {
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
                 if granted {
@@ -74,7 +74,7 @@ class CameraViewController: UIViewController {
     
     
     func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         
         cameraController.setUpCaptureSession()
         cameraView.videoPlayerView.videoGravity = .resizeAspectFill
@@ -86,10 +86,26 @@ class CameraViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraAccess), name: .requestCameraNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraRotation), name: .rotateCameraNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(changeViewAlpha(_:)), name:  NSNotification.Name("test"), object: nil)
+    }
+    
+    @objc func changeViewAlpha(_ notification: Notification) {
+        if let info = notification.userInfo {
+            let alpha = info["alpha"] as! CGFloat
+            if alpha > 0.7 {
+                UIView.animate(withDuration: 0.5) {
+                    self.cameraView.alpha = 0.0
+                }
+            } else {
+                UIView.animate(withDuration: 0.5) {
+                    self.cameraView.alpha = 1.0
+                }
+            }
+        }
     }
     
     @objc func requestCameraRotation() {
-        print("ROTATE")
         cameraController.switchCamera()
     }
     

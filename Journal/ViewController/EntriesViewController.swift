@@ -32,7 +32,7 @@ class EntriesViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         
-        let font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 13, weight: .bold)
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = font
@@ -61,6 +61,9 @@ class EntriesViewController: UIViewController {
         collectionView.backgroundColor = .darkness
         collectionView.register(EntryCell.self, forCellWithReuseIdentifier: EntryCell.id)
         view.addSubview(collectionView)
+        
+//        let image = UIImage(named: "image")?.jpegData(compressionQuality: 1.0)
+//        entries = [Entry(url: "", text: "This is a test", sentiment: "Happy", date: "", thumbnail: image)]
     }
     
     override func viewDidLayoutSubviews() {
@@ -72,7 +75,7 @@ class EntriesViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             label.topAnchor.constraint(equalTo: view.topAnchor, constant: 16.0),
-            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0),
+            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10.0),
             
             button.centerYAnchor.constraint(equalTo: label.centerYAnchor),
             button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0),
@@ -111,8 +114,9 @@ extension EntriesViewController: CurtainDelegate {
         }
     }
     
-    func curtainWillBeginDragging(_ curtain: Curtain) {
-        
+    func curtainDidDrag(_ curtain: Curtain) {
+        print("CURTAIN HEIGHT COEFFICIENT: \(curtain.heightCoefficient)")
+        NotificationCenter.default.post(name: NSNotification.Name("test"), object: nil, userInfo: ["alpha": curtain.heightCoefficient])
     }
 }
 
@@ -123,12 +127,12 @@ extension EntriesViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EntryCell.id, for: indexPath) as! EntryCell
-        cell.contentView.backgroundColor = UIColor(red: 44.0/255.0, green: 62.0/255.0, blue: 80.0/255.0, alpha: 1.0)
+        cell.contentView.backgroundColor = UIColor(red: 19.0/255.0, green: 33.0/255.0, blue: 46.0/255.0, alpha: 0.5)
         return cell
     }
     

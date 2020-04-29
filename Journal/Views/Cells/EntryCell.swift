@@ -12,6 +12,8 @@ import Shimmer
 class EntryCell: UICollectionViewCell {
     
     let shimmerView = FBShimmeringView()
+    let imageView = UIImageView()
+    var videoLenghtLabel = UILabel()
     
     static var id: String {
         return String(describing: self)
@@ -27,18 +29,28 @@ class EntryCell: UICollectionViewCell {
 
         addSubview(shimmerView)
         shimmerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            shimmerView.widthAnchor.constraint(equalTo: widthAnchor),
-            shimmerView.heightAnchor.constraint(equalTo: heightAnchor),
-        ])
-        
-        shimmerView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
+
         shimmerView.shimmeringAnimationOpacity = 0.5
         shimmerView.shimmeringSpeed = 80
-        
+
         shimmerView.contentView = contentView
         shimmerView.isShimmering = true
+    
+        videoLenghtLabel.text = "5:60"
+        videoLenghtLabel.textColor = .cloud
+        videoLenghtLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        videoLenghtLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(videoLenghtLabel)
+        
+        NSLayoutConstraint.activate([
+            
+            shimmerView.widthAnchor.constraint(equalTo: widthAnchor),
+            shimmerView.heightAnchor.constraint(equalTo: heightAnchor),
+   
+            videoLenghtLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8.0),
+            videoLenghtLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0),
+        ])
+        
     }
     
     required init?(coder: NSCoder) {
