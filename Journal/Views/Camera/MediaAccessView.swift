@@ -11,10 +11,14 @@ import AVFoundation
 
 class MediaAccessView: UIView {
     
+    // MARK: - Properties
+    
     var cameraAccessButton = UIButton()
     var cameraAccessImageView = UIImageView()
     var audioAccessButton = UIButton()
     var audioAccessImageView = UIImageView()
+    
+    // MARK: - View Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,6 +28,14 @@ class MediaAccessView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupConstraints()
+    }
+    
+    // MARK: - Functions
     
     private func setupViews() {
         
@@ -62,11 +74,6 @@ class MediaAccessView: UIView {
         addSubview(cameraAccessImageView)
         addSubview(audioAccessImageView)
         
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        setupConstraints()
     }
     
     @objc func requestCameraAccess() {

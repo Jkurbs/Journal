@@ -10,9 +10,13 @@ import UIKit
 
 class RecordingView: UIView {
     
+    // MARK: - Properties
+    
     let label = UILabel()
     let dotView = UIView()
     var timer: Timer!
+    
+    // MARK: - View Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,6 +31,8 @@ class RecordingView: UIView {
         super.layoutSubviews()
         setupConstraints()
     }
+    
+    // MARK: - Functions 
     
     private func setupViews() {
                 

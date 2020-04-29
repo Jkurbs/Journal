@@ -19,6 +19,8 @@ class RecordButtonView: UIView {
 
     var recordButtonImage: UIImage!
     
+    // MARK: - View Lifecycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()

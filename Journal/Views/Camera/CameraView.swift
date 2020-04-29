@@ -11,6 +11,8 @@ import AVFoundation
 
 class CameraView: UIView {
     
+    // MARK: - Properties
+    
     override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.self
     }
@@ -32,6 +34,8 @@ class CameraView: UIView {
         super.init(frame: frame)
         setupView()
     }
+    
+    // MARK: - Functions
     
     private func setupView() {
         

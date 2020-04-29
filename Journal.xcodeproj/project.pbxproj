@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6D05E4B82459E39000071BBF /* VoiceWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D05E4B72459E39000071BBF /* VoiceWaveView.swift */; };
-		6D390CEB2459B40E00F367D2 /* SpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D390CEA2459B40E00F367D2 /* SpeechViewController.swift */; };
 		6DB288072458D9E2009310F7 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB288062458D9E2009310F7 /* RecordingView.swift */; };
 		6DB2880A2458E30B009310F7 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB288092458E30B009310F7 /* EntryCell.swift */; };
 		6DDFE1D22458951900017A93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1D12458951900017A93 /* AppDelegate.swift */; };
@@ -31,7 +30,6 @@
 /* Begin PBXFileReference section */
 		67591A01E9E5AEC4AAA93489 /* Pods-Journal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journal.release.xcconfig"; path = "Target Support Files/Pods-Journal/Pods-Journal.release.xcconfig"; sourceTree = "<group>"; };
 		6D05E4B72459E39000071BBF /* VoiceWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceWaveView.swift; sourceTree = "<group>"; };
-		6D390CEA2459B40E00F367D2 /* SpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechViewController.swift; sourceTree = "<group>"; };
 		6DB288062458D9E2009310F7 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		6DB288092458E30B009310F7 /* EntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCell.swift; sourceTree = "<group>"; };
 		6DDFE1CE2458951900017A93 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +81,19 @@
 			path = Voice;
 			sourceTree = "<group>";
 		};
+		6D05E4B9245A1AE400071BBF /* Ressources */ = {
+			isa = PBXGroup;
+			children = (
+				6DDFE1D12458951900017A93 /* AppDelegate.swift */,
+				6DDFE1D32458951900017A93 /* SceneDelegate.swift */,
+				6DDFE1D72458951900017A93 /* Main.storyboard */,
+				6DDFE1DA2458952000017A93 /* Assets.xcassets */,
+				6DDFE1DC2458952000017A93 /* LaunchScreen.storyboard */,
+				6DDFE1DF2458952000017A93 /* Info.plist */,
+			);
+			path = Ressources;
+			sourceTree = "<group>";
+		};
 		6DB288082458E2FF009310F7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,12 +139,7 @@
 				6DDFE1F32458A39C00017A93 /* Controller */,
 				6DDFE1ED24589CF800017A93 /* Extension */,
 				6DDFE1E5245895E700017A93 /* Model */,
-				6DDFE1D12458951900017A93 /* AppDelegate.swift */,
-				6DDFE1D32458951900017A93 /* SceneDelegate.swift */,
-				6DDFE1D72458951900017A93 /* Main.storyboard */,
-				6DDFE1DA2458952000017A93 /* Assets.xcassets */,
-				6DDFE1DC2458952000017A93 /* LaunchScreen.storyboard */,
-				6DDFE1DF2458952000017A93 /* Info.plist */,
+				6D05E4B9245A1AE400071BBF /* Ressources */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -151,7 +157,6 @@
 			children = (
 				6DDFE1E9245898E500017A93 /* CameraViewController.swift */,
 				6DDFE1EB2458991B00017A93 /* EntriesViewController.swift */,
-				6D390CEA2459B40E00F367D2 /* SpeechViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -308,7 +313,6 @@
 			files = (
 				6DDFE1E7245895F500017A93 /* Entry.swift in Sources */,
 				6DDFE1F72458A76900017A93 /* MediaAccessView.swift in Sources */,
-				6D390CEB2459B40E00F367D2 /* SpeechViewController.swift in Sources */,
 				6DB288072458D9E2009310F7 /* RecordingView.swift in Sources */,
 				6DDFE1F22458A0FC00017A93 /* CameraView.swift in Sources */,
 				6DDFE1F92458B9CA00017A93 /* Notification+String.swift in Sources */,
@@ -467,7 +471,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GF728A45JE;
-				INFOPLIST_FILE = Journal/Info.plist;
+				INFOPLIST_FILE = Journal/Ressources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -486,7 +490,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GF728A45JE;
-				INFOPLIST_FILE = Journal/Info.plist;
+				INFOPLIST_FILE = Journal/Ressources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
