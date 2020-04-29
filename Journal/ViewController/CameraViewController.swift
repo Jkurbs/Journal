@@ -84,10 +84,16 @@ class CameraViewController: UIViewController {
         view.addSubview(cameraView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraAccess), name: .requestCameraNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(requestCameraRotation), name: .rotateCameraNotification, object: nil)
+    }
+    
+    @objc func requestCameraRotation() {
+        print("ROTATE")
+        cameraController.switchCamera()
     }
     
     @objc func requestCameraAccess() {
-        print("Camera")
         cameraController.setUpCaptureSession()
         cameraView.videoPlayerView.videoGravity = .resizeAspectFill
         cameraView.session = cameraController.captureSession

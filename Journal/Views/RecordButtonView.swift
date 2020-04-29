@@ -16,7 +16,7 @@ class RecordButtonView: UIView {
     let blurredEffectView = UIVisualEffectView()
     let rotationButton = UIButton()
     var recordIsSelected = false
-    
+
     var recordButtonImage: UIImage!
     
     override init(frame: CGRect) {
@@ -58,6 +58,7 @@ class RecordButtonView: UIView {
         
         rotationButton.translatesAutoresizingMaskIntoConstraints = false
         rotationButton.setImage(whiteCircleimage, for: .normal)
+        rotationButton.addTarget(self, action: #selector(rotateCamera), for: .touchUpInside)
         addSubview(rotationButton)
     }
     
@@ -79,6 +80,7 @@ class RecordButtonView: UIView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            
             blurredEffectView.heightAnchor.constraint(equalTo: heightAnchor, constant: -20),
             blurredEffectView.widthAnchor.constraint(equalTo: blurredEffectView.heightAnchor),
             blurredEffectView.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -90,9 +92,9 @@ class RecordButtonView: UIView {
             recordButton.widthAnchor.constraint(equalTo: recordButton.heightAnchor),
             
             rotationButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            rotationButton.leftAnchor.constraint(equalTo: rightAnchor, constant: -16.0),
-            rotationButton.widthAnchor.constraint(equalToConstant: 30),
-            rotationButton.heightAnchor.constraint(equalToConstant: 30)
+            rotationButton.leftAnchor.constraint(equalTo: recordButton.rightAnchor, constant: 32.0),
+            rotationButton.widthAnchor.constraint(equalToConstant: 45),
+            rotationButton.heightAnchor.constraint(equalToConstant: 45)
         ])
         recordButton.layer.cornerRadius = recordButton.bounds.size.width/2
         blurredEffectView.layer.cornerRadius = blurredEffectView.bounds.size.width/2

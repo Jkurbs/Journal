@@ -30,7 +30,7 @@ class CameraController: NSObject {
     func setUpCaptureSession() {
         
         captureSession.beginConfiguration()
-        captureSession.sessionPreset = AVCaptureSession.Preset.photo
+        captureSession.sessionPreset = AVCaptureSession.Preset.high
         
         // Add inputs
         let camera = bestCamera()
@@ -39,13 +39,13 @@ class CameraController: NSObject {
         guard let captureInput = try? AVCaptureDeviceInput(device: camera),
             captureSession.canAddInput(captureInput) else {
                 return
-//                fatalError("Can't create the input form the camera")
+                //                fatalError("Can't create the input form the camera")
         }
         captureSession.addInput(captureInput)
         
         
-        if captureSession.canSetSessionPreset(.hd4K3840x2160) { // FUTURE: Play with 4k
-            captureSession.sessionPreset = .hd4K3840x2160
+        if captureSession.canSetSessionPreset(.high) { // FUTURE: Play with 4k
+            captureSession.sessionPreset = .high
         }
         
         if captureSession.canAddOutput(cameraOutput){
@@ -57,15 +57,15 @@ class CameraController: NSObject {
         
         guard let audioInput = try? AVCaptureDeviceInput(device: microphone),
             captureSession.canAddInput(audioInput) else {
-//                fatalError("Can't create microphone input")
-            return
+                //                fatalError("Can't create microphone input")
+                return
         }
         captureSession.addInput(audioInput)
         self.audioInput = audioInput
         
         // Recording to disk
         guard captureSession.canAddOutput(fileOutput) else {
-//            fatalError("Cannot record to disk")
+            //            fatalError("Cannot record to disk")
             return 
         }
         captureSession.addOutput(fileOutput)
@@ -86,7 +86,7 @@ class CameraController: NSObject {
         try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         let inputNode = audioEngine.inputNode
-                
+        
         // Create and configure the speech recognition request.
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         
@@ -148,11 +148,10 @@ class CameraController: NSObject {
         if let wideCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
             return wideCamera
         }
-        
         // Future: Add a button to toggle front/back camera
-        
         fatalError("No cameras on the device (or you're running this on a Simulator which isn't supported)")
     }
+    
     
     private func bestAudio() -> AVCaptureDevice {
         if let device = AVCaptureDevice.default(for: .audio) {
@@ -160,6 +159,76 @@ class CameraController: NSObject {
         }
         fatalError("No audio")
     }
+    
+    
+    
+    func switchCamera() {
+        
+        // Get current input
+        guard let input = captureSession.inputs[0] as? AVCaptureDeviceInput else { return }
+        
+        
+        // Begin new session configuration and defer commit
+        captureSession.beginConfiguration()
+        defer { captureSession.commitConfiguration() }
+        
+        // Create new capture device
+        var newDevice: AVCaptureDevice?
+        if input.device.position == .back {
+            newDevice = captureDevice(with: .front)
+        } else {
+            newDevice = captureDevice(with: .back)
+        }
+        
+        // Create new capture input
+        var deviceInput: AVCaptureDeviceInput!
+        do {
+            deviceInput = try AVCaptureDeviceInput(device: newDevice!)
+        } catch let error {
+            print(error.localizedDescription)
+            return
+        }
+
+        if let inputs = captureSession.inputs as? [AVCaptureDeviceInput] {
+            for input in inputs {
+                captureSession.removeInput(input)
+            }
+        }
+        captureSession.addInput(deviceInput)
+        
+        
+        
+    }
+    
+    // Find a camera with the specified AVCaptureDevicePosition, returning nil if one is not found
+    func cameraWithPosition(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .unspecified)
+        for device in discoverySession.devices {
+            if device.position == position {
+                return device
+            }
+        }
+        
+        return nil
+    }
+    
+    fileprivate func captureDevice(with position: AVCaptureDevice.Position) -> AVCaptureDevice? {
+        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [ .builtInWideAngleCamera, .builtInMicrophone, .builtInDualCamera, .builtInTelephotoCamera ], mediaType: AVMediaType.video, position: .unspecified).devices
+        
+        for device in devices {
+            if device.position == position {
+                return device
+            }
+        }
+        return nil
+    }
+    
+    
+    
+    
+    
+    
+    
     
     func startRecording() {
         

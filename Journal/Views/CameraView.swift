@@ -53,7 +53,6 @@ class CameraView: UIView {
     }
     
     @objc func recordingStarted() {
-        print("RECORDING STARTED")
         recordingView.isHidden = false
     }
     
@@ -71,7 +70,7 @@ class CameraView: UIView {
             
             recordButtonView.centerXAnchor.constraint(equalTo: centerXAnchor),
             recordButtonView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -120.0),
-            recordButtonView.widthAnchor.constraint(equalToConstant: 200.0),
+            recordButtonView.widthAnchor.constraint(equalTo: widthAnchor),
             recordButtonView.heightAnchor.constraint(equalToConstant: 100.0),
         ])
     }
