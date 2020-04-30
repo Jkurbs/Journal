@@ -104,10 +104,12 @@ class CameraViewController: UIViewController {
     }
     
     @objc func startRecording() {
+        curtainController?.moveCurtain(to: .min, animated: true)
         cameraController.startRecording()
     }
     
     @objc func stopRecording() {
+        curtainController?.moveCurtain(to: .mid, animated: true)
         let entry = Entry(name: cameraController.videoName!, speech: cameraController.speech ?? "Not speech detected", sentiment: "", date: Date())
         print("ENTRY SPEECH: \(String(describing: entry.speech))")
         print("ENTRY NAME: \(String(describing: entry.name))")

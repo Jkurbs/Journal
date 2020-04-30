@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6D05E4B82459E39000071BBF /* VoiceWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D05E4B72459E39000071BBF /* VoiceWaveView.swift */; };
+		6D05E4BB245A1CA400071BBF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D05E4BA245A1CA400071BBF /* GoogleService-Info.plist */; };
+		6D05E4BE245A5DB000071BBF /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D05E4BD245A5DB000071BBF /* AuthService.swift */; };
+		6D05E4C0245A5DBD00071BBF /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D05E4BF245A5DBD00071BBF /* DataService.swift */; };
 		6DB288072458D9E2009310F7 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB288062458D9E2009310F7 /* RecordingView.swift */; };
 		6DB2880A2458E30B009310F7 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB288092458E30B009310F7 /* EntryCell.swift */; };
 		6DDFE1D22458951900017A93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1D12458951900017A93 /* AppDelegate.swift */; };
@@ -30,6 +33,9 @@
 /* Begin PBXFileReference section */
 		67591A01E9E5AEC4AAA93489 /* Pods-Journal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journal.release.xcconfig"; path = "Target Support Files/Pods-Journal/Pods-Journal.release.xcconfig"; sourceTree = "<group>"; };
 		6D05E4B72459E39000071BBF /* VoiceWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceWaveView.swift; sourceTree = "<group>"; };
+		6D05E4BA245A1CA400071BBF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Users/kurbs/Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6D05E4BD245A5DB000071BBF /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		6D05E4BF245A5DBD00071BBF /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		6DB288062458D9E2009310F7 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		6DB288092458E30B009310F7 /* EntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCell.swift; sourceTree = "<group>"; };
 		6DDFE1CE2458951900017A93 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +90,7 @@
 		6D05E4B9245A1AE400071BBF /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				6D05E4BA245A1CA400071BBF /* GoogleService-Info.plist */,
 				6DDFE1D12458951900017A93 /* AppDelegate.swift */,
 				6DDFE1D32458951900017A93 /* SceneDelegate.swift */,
 				6DDFE1D72458951900017A93 /* Main.storyboard */,
@@ -92,6 +99,15 @@
 				6DDFE1DF2458952000017A93 /* Info.plist */,
 			);
 			path = Ressources;
+			sourceTree = "<group>";
+		};
+		6D05E4BC245A5DA000071BBF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6D05E4BD245A5DB000071BBF /* AuthService.swift */,
+				6D05E4BF245A5DBD00071BBF /* DataService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		6DB288082458E2FF009310F7 /* Cells */ = {
@@ -134,6 +150,7 @@
 		6DDFE1D02458951900017A93 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				6D05E4BC245A5DA000071BBF /* Services */,
 				6DDFE1E82458971500017A93 /* ViewController */,
 				6DDFE1F02458A0DD00017A93 /* Views */,
 				6DDFE1F32458A39C00017A93 /* Controller */,
@@ -257,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DDFE1DE2458952000017A93 /* LaunchScreen.storyboard in Resources */,
+				6D05E4BB245A1CA400071BBF /* GoogleService-Info.plist in Resources */,
 				6DDFE1DB2458952000017A93 /* Assets.xcassets in Resources */,
 				6DDFE1D92458951900017A93 /* Main.storyboard in Resources */,
 			);
@@ -318,11 +336,13 @@
 				6DDFE1F92458B9CA00017A93 /* Notification+String.swift in Sources */,
 				6DDFE1EA245898E500017A93 /* CameraViewController.swift in Sources */,
 				6DDFE1EF24589D0C00017A93 /* UIColor+Pallete.swift in Sources */,
+				6D05E4C0245A5DBD00071BBF /* DataService.swift in Sources */,
 				6DDFE1FB2458BCB400017A93 /* RecordButtonView.swift in Sources */,
 				6DDFE1D22458951900017A93 /* AppDelegate.swift in Sources */,
 				6DB2880A2458E30B009310F7 /* EntryCell.swift in Sources */,
 				6DDFE1D42458951900017A93 /* SceneDelegate.swift in Sources */,
 				6D05E4B82459E39000071BBF /* VoiceWaveView.swift in Sources */,
+				6D05E4BE245A5DB000071BBF /* AuthService.swift in Sources */,
 				6DDFE1F52458A3AC00017A93 /* CameraController.swift in Sources */,
 				6DDFE1EC2458991B00017A93 /* EntriesViewController.swift in Sources */,
 			);

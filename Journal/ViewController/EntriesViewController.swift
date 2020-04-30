@@ -18,10 +18,13 @@ class EntriesViewController: UIViewController {
     var entries = [Entry]()
     var heightConstraint: CGFloat = 200
     var collectionViewHeightConstraint: NSLayoutConstraint?
+    var collectionViewTopConstraint: NSLayoutConstraint?
     
     var textView = UITextView()
     
     var voiceWaveView = VoiceWaveView()
+    var recordButtonView = RecordButtonView()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +39,7 @@ class EntriesViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         view.addSubview(voiceWaveView)
-
+        view.addSubview(recordButtonView)
 
 //        let font = UIFont.systemFont(ofSize: 13, weight: .bold)
         
@@ -71,19 +74,12 @@ class EntriesViewController: UIViewController {
         collectionView.backgroundColor = .darkness
         collectionView.register(EntryCell.self, forCellWithReuseIdentifier: EntryCell.id)
         view.addSubview(collectionView)
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//            self.curtainController?.moveCurtain(to: .mid, animated: true)
-//        }
-
-        
-        
-        setupConstraints()
+        self.curtainController?.moveCurtain(to: .mid, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-       
+       setupConstraints()
     }
     
     func setupConstraints() {
@@ -93,12 +89,19 @@ class EntriesViewController: UIViewController {
             voiceWaveView.widthAnchor.constraint(equalTo: view.widthAnchor),
             voiceWaveView.heightAnchor.constraint(equalToConstant: 40),
             
+            recordButtonView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            recordButtonView.topAnchor.constraint(equalTo: voiceWaveView.bottomAnchor, constant: 8.0),
+            recordButtonView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            recordButtonView.heightAnchor.constraint(equalToConstant: 100.0),
+            
 //            button.centerYAnchor.constraint(equalTo: label.centerYAnchor),
 //            button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0),
 //
-            collectionView.topAnchor.constraint(equalTo: voiceWaveView.bottomAnchor, constant: 0.0),
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
         ])
+        collectionViewTopConstraint = collectionView.topAnchor.constraint(equalTo: recordButtonView.bottomAnchor, constant: 0.0)
+        collectionViewTopConstraint?.isActive = true
+
         collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 200)
         collectionViewHeightConstraint?.isActive = true
     }
@@ -111,17 +114,27 @@ extension EntriesViewController: CurtainDelegate {
     func curtain(_ curtain: Curtain, didChange heightState: CurtainHeightState) {
         switch heightState {
         case .min:
-            print("")
+            self.voiceWaveView.alpha = 1.0
+            self.recordButtonView.alpha = 1.0
+            UIView.animate(withDuration: 0.5) {
+                self.collectionViewTopConstraint?.constant -= (self.voiceWaveView.frame.size.height + self.recordButtonView.frame.size.height)
+            }
         case .mid:
             guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
             let width = (view.frame.width / 3) - 10
             layout.itemSize = CGSize(width: width, height: width + 20)
             layout.prepare()
             layout.invalidateLayout()
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: 0.5) {
                 self.collectionViewHeightConstraint?.constant = 200
+                self.collectionViewTopConstraint?.constant += (self.voiceWaveView.frame.size.height + self.recordButtonView.frame.size.height)
                 self.collectionView.layoutIfNeeded()
             }
+//            UIView.animate(withDuration: 0.3) {
+//                self.collectionViewHeightConstraint?.constant = 200
+//                self.collectionViewTopConstraint?.constant = -(self.voiceWaveView.frame.size.height + self.recordButtonView.frame.size.height)
+//                self.collectionView.layoutIfNeeded()
+//            }
             
         case .max:
             guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
@@ -129,11 +142,16 @@ extension EntriesViewController: CurtainDelegate {
             layout.itemSize = CGSize(width: width, height: 250)
             layout.prepare()
             layout.invalidateLayout()
+            
             let height = self.collectionView.collectionViewLayout.collectionViewContentSize.height
             UIView.animate(withDuration: 0.3) {
+                self.voiceWaveView.alpha = 0.0
+                self.recordButtonView.alpha = 0.0
                 self.collectionViewHeightConstraint?.constant = height + 100
+                self.collectionViewTopConstraint?.constant -= (self.voiceWaveView.frame.size.height + self.recordButtonView.frame.size.height)
                 self.collectionView.layoutIfNeeded()
             }
+
         default:
             break
         }

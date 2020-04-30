@@ -10,6 +10,9 @@ target 'Journal' do
   pod 'SDWebImage', '~> 5.0'
   pod 'Shimmer'
   pod 'PXSiriWave', '~> 0.0.2'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'
 
 
   

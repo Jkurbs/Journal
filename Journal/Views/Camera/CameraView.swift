@@ -27,7 +27,6 @@ class CameraView: UIView {
     }
     
     var recordingView = RecordingView()
-    var recordButtonView = RecordButtonView()
     
     
     override init(frame: CGRect) {
@@ -44,7 +43,6 @@ class CameraView: UIView {
         addSubview(recordingView)
         
         recordingView.isHidden = true
-        addSubview(recordButtonView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(recordingStarted), name: .startRecordingNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(recordingStoped), name: .stopRecordingNotification, object: nil)
@@ -71,11 +69,6 @@ class CameraView: UIView {
             recordingView.leftAnchor.constraint(equalTo: leftAnchor, constant: 24.0),
             recordingView.widthAnchor.constraint(equalToConstant: 100),
             recordingView.heightAnchor.constraint(equalToConstant: 50.0),
-            
-            recordButtonView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            recordButtonView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -120.0),
-            recordButtonView.widthAnchor.constraint(equalTo: widthAnchor),
-            recordButtonView.heightAnchor.constraint(equalToConstant: 100.0),
         ])
     }
     
