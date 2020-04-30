@@ -36,7 +36,7 @@ class VoiceWaveView: UIView {
     }
     
     private func setupViews() {
-        backgroundColor = .white
+        backgroundColor = .systemGray6
         translatesAutoresizingMaskIntoConstraints = false 
         waveView.translatesAutoresizingMaskIntoConstraints = false
         waveView.frequency = 1.5;
@@ -46,10 +46,12 @@ class VoiceWaveView: UIView {
         waveView.backgroundColor = .darkness
         addSubview(waveView)
         
-        Timer.scheduledTimer(withTimeInterval: 0.11, repeats: true) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: 0.10, repeats: true) { (timer) in
             self.waveView.update(withLevel: 0.1)
         }
-
+        
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(test), name: NSNotification.Name("test2"), object: nil)
     }
     

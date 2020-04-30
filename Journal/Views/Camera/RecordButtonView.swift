@@ -69,6 +69,7 @@ class RecordButtonView: UIView {
             recordIsSelected = false
             sender.setImage(nil, for: .normal)
             NotificationCenter.default.post(name: .stopRecordingNotification, object: nil)
+            print("STOP RECORDING")
         } else {
             recordIsSelected = true
             sender.setImage(recordButtonImage, for: .normal)

@@ -6,19 +6,44 @@
 //  Copyright © 2020 Kerby Jean. All rights reserved.
 //
 
+import UIKit
+import IGListKit
 import Foundation
 
-class Entry: NSCoder {
+class Entry: Codable {
     
+    var imageUrl: String?
     var name: String!
     var speech: String!
     var sentiment: String?
-    var date: Date!
+    var date: String!
     
-    init(name: String, speech: String, sentiment: String, date: Date) {
+    init(name: String, speech: String, sentiment: String, date: String, imageUrl: String? = "") {
         self.name = name
         self.speech = speech
         self.sentiment = sentiment
         self.date = date
+        self.imageUrl = imageUrl
     }
 }
+
+extension Entry: Equatable {
+    
+    public static func ==(rhs: Entry, lhs: Entry) -> Bool {
+        rhs.name != lhs.name
+    }
+}
+
+extension Entry: ListDiffable {
+    
+    public func diffIdentifier() -> NSObjectProtocol {
+        name as NSObjectProtocol
+    }
+    
+    public func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+        guard self !== object else { return true }
+        guard let object = object as? Entry else { return false }
+        return self.name == object.name
+    }
+}
+

@@ -25,22 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     func initializeControllers() {
-        
-        let cameraViewController = CameraViewController()
-        let entriesViewController = EntriesViewController()
-        let navigationController = UINavigationController(rootViewController: entriesViewController)
-        
-        let curtainController = CurtainController(content:cameraViewController , curtain: navigationController)
-        
-        curtainController.curtain.maxHeightCoefficient = 1.0
-        curtainController.curtain.midHeightCoefficient = 0.3
-        curtainController.curtain.minHeightCoefficient = 0.1
-        
-        curtainController.curtain.handleIndicatorColor = .cloud
-        
-        curtainController.curtainDelegate = entriesViewController
-        
-        self.window?.rootViewController = curtainController
+        self.window?.rootViewController = LoginViewController()
         self.window?.makeKeyAndVisible()
     }
     

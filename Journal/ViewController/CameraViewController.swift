@@ -21,10 +21,6 @@ class CameraViewController: UIViewController {
     
     // MARK: - View Lifecycle
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -83,6 +79,7 @@ class CameraViewController: UIViewController {
     
     func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(startRecording), name: .startRecordingNotification, object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(stopRecording), name: .stopRecordingNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraAccess), name: .requestCameraNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraRotation), name: .rotateCameraNotification, object: nil)
@@ -104,16 +101,24 @@ class CameraViewController: UIViewController {
     }
     
     @objc func startRecording() {
-        curtainController?.moveCurtain(to: .min, animated: true)
         cameraController.startRecording()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.curtainController?.moveCurtain(to: .min, animated: true)
+        }
     }
     
     @objc func stopRecording() {
-        curtainController?.moveCurtain(to: .mid, animated: true)
-        let entry = Entry(name: cameraController.videoName!, speech: cameraController.speech ?? "Not speech detected", sentiment: "", date: Date())
-        print("ENTRY SPEECH: \(String(describing: entry.speech))")
-        print("ENTRY NAME: \(String(describing: entry.name))")
+        // Debug
         cameraController.stopRecording()
+        curtainController?.moveCurtain(to: .mid, animated: true)
+        DataService.shared.saveEtries(name: cameraController.fileName ?? "", speech: cameraController.speech ?? "", sentimen: "", date: CachedDateFormattingHelper.shared.formatTodayDate(), completion: { result in
+            if let _ = try? result.get() {
+                DispatchQueue.main.async {
+                    //TODO: - show alert to user
+                }
+            }
+        })
+
     }
     
     @objc func requestCameraRotation() {
