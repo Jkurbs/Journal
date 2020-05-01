@@ -25,7 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     func initializeControllers() {
-        self.window?.rootViewController = LoginViewController()
+        let navigationController = UINavigationController(rootViewController: LoginViewController())
+        self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
     }
     

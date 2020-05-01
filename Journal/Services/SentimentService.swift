@@ -21,13 +21,15 @@ class AI {
         
         let (sentiment, _) = tagger.tag(at: string.startIndex, unit: .paragraph, scheme: .sentimentScore)
 
-        let score = Double(sentiment!.rawValue)!
-        if score < 0 {
-            return (sentiment: "", score: score)
-        } else if score > 0 {
-            return (sentiment: "", score: score)
-        } else {
-            return (sentiment: "", score: score)
+        if let score = Double(sentiment?.rawValue ?? "") {
+            if score < 0 {
+                return (sentiment: "", score: score)
+            } else if score > 0 {
+                return (sentiment: "", score: score)
+            } else {
+                return (sentiment: "", score: score)
+            }
         }
+        return (sentiment: "Neutral", score: 0.0)
     }
 }

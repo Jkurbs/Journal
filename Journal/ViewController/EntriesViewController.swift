@@ -28,7 +28,7 @@ class EntriesViewController: UIViewController {
         layout.scrollDirection = .horizontal
         view.showsHorizontalScrollIndicator = false
         view.isPagingEnabled = true
-        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.translatesAutoresizingMaskIntoConstraints = false
     
         view.isHidden = true
         self.view.addSubview(view)
@@ -64,6 +64,7 @@ class EntriesViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
         
+        wideCollectionView.frame = view.frame
         adapter.collectionView = wideCollectionView
         adapter.dataSource = self
         
@@ -97,9 +98,9 @@ class EntriesViewController: UIViewController {
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: 200),
             
-            wideCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            wideCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            wideCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor)
+//            wideCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+//            wideCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
+//            wideCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
     }
     
@@ -128,9 +129,11 @@ extension EntriesViewController: CurtainDelegate {
             print("")
             collectionView.isHidden = false
             wideCollectionView.isHidden = true
+            navigationController?.setNavigationBarHidden(false, animated: false)
         case .max:
             collectionView.isHidden = true
             wideCollectionView.isHidden = false
+            navigationController?.setNavigationBarHidden(true, animated: false)
         default:
             break
         }

@@ -16,12 +16,14 @@
 		6D434819245B38E300416F00 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D434818245B38E300416F00 /* DateFormatter.swift */; };
 		6D43481B245B47C300416F00 /* Snapshot+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D43481A245B47C300416F00 /* Snapshot+Data.swift */; };
 		6D43481D245B58F300416F00 /* ImageResizeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D43481C245B58F300416F00 /* ImageResizeOperation.swift */; };
-		6D43481F245B6D5B00416F00 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D43481E245B6D5B00416F00 /* ContentViewController.swift */; };
 		6D434821245B762300416F00 /* SentimentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D434820245B762300416F00 /* SentimentService.swift */; };
 		6D434823245B778400416F00 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D434822245B778400416F00 /* EntryController.swift */; };
 		6DB288072458D9E2009310F7 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB288062458D9E2009310F7 /* RecordingView.swift */; };
 		6DB2880A2458E30B009310F7 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB288092458E30B009310F7 /* EntryCell.swift */; };
 		6DB669FC245B8363009268B6 /* SpeechCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB669FB245B8363009268B6 /* SpeechCell.swift */; };
+		6DB669FE245B936F009268B6 /* EntryWideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB669FD245B936F009268B6 /* EntryWideCell.swift */; };
+		6DB66A01245BB44F009268B6 /* PlayerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB66A00245BB44F009268B6 /* PlayerComponent.swift */; };
+		6DB66A03245BBE5F009268B6 /* LearnMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB66A02245BBE5F009268B6 /* LearnMoreViewController.swift */; };
 		6DDFE1D22458951900017A93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1D12458951900017A93 /* AppDelegate.swift */; };
 		6DDFE1D42458951900017A93 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDFE1D32458951900017A93 /* SceneDelegate.swift */; };
 		6DDFE1D92458951900017A93 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DDFE1D72458951900017A93 /* Main.storyboard */; };
@@ -51,12 +53,14 @@
 		6D434818245B38E300416F00 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		6D43481A245B47C300416F00 /* Snapshot+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Snapshot+Data.swift"; sourceTree = "<group>"; };
 		6D43481C245B58F300416F00 /* ImageResizeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResizeOperation.swift; sourceTree = "<group>"; };
-		6D43481E245B6D5B00416F00 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		6D434820245B762300416F00 /* SentimentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentService.swift; sourceTree = "<group>"; };
 		6D434822245B778400416F00 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 		6DB288062458D9E2009310F7 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		6DB288092458E30B009310F7 /* EntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCell.swift; sourceTree = "<group>"; };
 		6DB669FB245B8363009268B6 /* SpeechCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCell.swift; sourceTree = "<group>"; };
+		6DB669FD245B936F009268B6 /* EntryWideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryWideCell.swift; sourceTree = "<group>"; };
+		6DB66A00245BB44F009268B6 /* PlayerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerComponent.swift; sourceTree = "<group>"; };
+		6DB66A02245BBE5F009268B6 /* LearnMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnMoreViewController.swift; sourceTree = "<group>"; };
 		6DDFE1CE2458951900017A93 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DDFE1D12458951900017A93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DDFE1D32458951900017A93 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				6DB288092458E30B009310F7 /* EntryCell.swift */,
+				6DB669FD245B936F009268B6 /* EntryWideCell.swift */,
 				6DB669FB245B8363009268B6 /* SpeechCell.swift */,
 			);
 			path = Cells;
@@ -166,6 +171,14 @@
 				6DB288062458D9E2009310F7 /* RecordingView.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		6DB669FF245BB43F009268B6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6DB66A00245BB44F009268B6 /* PlayerComponent.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		6DDFE1C52458951900017A93 = {
@@ -217,7 +230,7 @@
 				6DDFE1E9245898E500017A93 /* CameraViewController.swift */,
 				6DDFE1EB2458991B00017A93 /* EntriesViewController.swift */,
 				6D05E4C1245A5EF000071BBF /* LoginViewController.swift */,
-				6D43481E245B6D5B00416F00 /* ContentViewController.swift */,
+				6DB66A02245BBE5F009268B6 /* LearnMoreViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -235,6 +248,7 @@
 		6DDFE1F02458A0DD00017A93 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6DB669FF245BB43F009268B6 /* View */,
 				6D05E4B62459E37E00071BBF /* Voice */,
 				6DB288082458E2FF009310F7 /* Cells */,
 				6DB2880B245925E3009310F7 /* Camera */,
@@ -374,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DB66A03245BBE5F009268B6 /* LearnMoreViewController.swift in Sources */,
 				6DDFE1E7245895F500017A93 /* Entry.swift in Sources */,
 				6DDFE1F72458A76900017A93 /* MediaAccessView.swift in Sources */,
 				6DB288072458D9E2009310F7 /* RecordingView.swift in Sources */,
@@ -384,7 +399,7 @@
 				6DDFE1EA245898E500017A93 /* CameraViewController.swift in Sources */,
 				6D43481D245B58F300416F00 /* ImageResizeOperation.swift in Sources */,
 				6DB669FC245B8363009268B6 /* SpeechCell.swift in Sources */,
-				6D43481F245B6D5B00416F00 /* ContentViewController.swift in Sources */,
+				6DB66A01245BB44F009268B6 /* PlayerComponent.swift in Sources */,
 				6DDFE1EF24589D0C00017A93 /* UIColor+Pallete.swift in Sources */,
 				6D434821245B762300416F00 /* SentimentService.swift in Sources */,
 				6D05E4C0245A5DBD00071BBF /* DataService.swift in Sources */,
@@ -397,6 +412,7 @@
 				6D43481B245B47C300416F00 /* Snapshot+Data.swift in Sources */,
 				6D05E4C2245A5EF000071BBF /* LoginViewController.swift in Sources */,
 				6D05E4BE245A5DB000071BBF /* AuthService.swift in Sources */,
+				6DB669FE245B936F009268B6 /* EntryWideCell.swift in Sources */,
 				6DDFE1F52458A3AC00017A93 /* CameraController.swift in Sources */,
 				6DDFE1EC2458991B00017A93 /* EntriesViewController.swift in Sources */,
 			);

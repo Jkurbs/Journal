@@ -20,10 +20,10 @@ class SpeechCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .yellow
         
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.textColor = .label
+        textView.textColor = .cloud
+        textView.backgroundColor = .black
         textView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         
         addSubview(textView)

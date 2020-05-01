@@ -35,7 +35,7 @@ class EntryController: ListSectionController {
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         if index == 0 {
-            guard let cell = collectionContext?.dequeueReusableCell(of: EntryCell.self, for: self, at: index) as? EntryCell else {
+            guard let cell = collectionContext?.dequeueReusableCell(of: EntryWideCell.self, for: self, at: index) as? EntryWideCell else {
                 fatalError()
             }
             cell.entry = entry
@@ -54,7 +54,7 @@ class EntryController: ListSectionController {
     }
     
     override func didSelectItem(at index: Int) {
-        if let cell = collectionContext?.cellForItem(at: index, sectionController: self) as? EntryCell {
+        if let cell = collectionContext?.cellForItem(at: index, sectionController: self) as? EntryWideCell {
             cell.playVideo()
         }
     }
