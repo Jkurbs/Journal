@@ -23,6 +23,8 @@ class EntryCell: UICollectionViewCell {
     var path: String?
     var timeObserver: Any?
     
+    var key = "currentItem.loadedTimeRanges"
+    
     static var id: String {
         return String(describing: self)
     }
@@ -49,7 +51,7 @@ class EntryCell: UICollectionViewCell {
         layer.borderColor = UIColor.clear.cgColor
         layer.masksToBounds = true
         layer.cornerRadius = 2.0
-
+        
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(imageView)
@@ -72,14 +74,13 @@ class EntryCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalTo: heightAnchor),
             imageView.widthAnchor.constraint(equalTo: widthAnchor),
+            
             shimmerView.widthAnchor.constraint(equalTo: widthAnchor),
             shimmerView.heightAnchor.constraint(equalTo: heightAnchor),
-
+            
             videoLenghtLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8.0),
             videoLenghtLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0),
         ])
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(notification:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player?.currentItem)
     }
     
     
@@ -92,25 +93,18 @@ class EntryCell: UICollectionViewCell {
         if let docDir : URL = urls.first {
             let videoUrl = docDir.appendingPathComponent("\(videoName).mov")
             player = AVPlayer(url:  videoUrl)
-            player?.isMuted = false
-            playerLayer = AVPlayerLayer(player: player)
-            playerLayer?.frame = contentView.bounds
-            playerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            imageView.layer.addSublayer(playerLayer!)
+//            player?.addObserver(self, forKeyPath: key, options: .new, context: nil)
         }
     }
     
-    func stopVideo() {
-        player?.pause()
-    }
-    
-    func playVideo() {
-        self.player?.seek(to: CMTime.zero)
-        player?.play()
-    }
-    
-    @objc func playerItemDidReachEnd(notification: NSNotification) {
-//        self.player?.seek(to: CMTime.zero)
-//        self.player?.play()
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == key {
+            if let duration = player?.currentItem?.duration {
+                let durationSeconds = CMTimeGetSeconds(duration)
+                let secondsText = Int(durationSeconds) % 60
+                let minutesText = String(format: "%02d", Int(durationSeconds) / 60)
+                self.videoLenghtLabel.text = "\(minutesText):\(secondsText)"
+            }
+        }
     }
 }

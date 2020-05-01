@@ -67,6 +67,7 @@ class EntriesViewController: UIViewController {
         
         wideCollectionView.frame = view.frame
         adapter.collectionView = wideCollectionView
+        adapter.collectionViewDelegate = self
         adapter.dataSource = self
         
         let layout = UICollectionViewFlowLayout()
@@ -107,7 +108,6 @@ class EntriesViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.entries.append(entry)
                     self.collectionView.reloadData()
-                    self.adapter.performUpdates(animated: true, completion: nil)
                 }
             }
         }
@@ -128,6 +128,7 @@ extension EntriesViewController: CurtainDelegate {
             wideCollectionView.isHidden = true
             navigationController?.setNavigationBarHidden(false, animated: false)
         case .max:
+            self.adapter.performUpdates(animated: true, completion: nil)
             collectionView.isHidden = true
             wideCollectionView.isHidden = false
             navigationController?.setNavigationBarHidden(true, animated: false)
@@ -166,6 +167,21 @@ extension EntriesViewController: UICollectionViewDataSource {
         collectionView.deselectItem(at: indexPath, animated: true)
         curtainController?.moveCurtain(to: .max, animated: true)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+    }
+    
+    
+}
+
+extension EntriesViewController: UICollectionViewDelegate {
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView  == self.wideCollectionView {
+            
+            if let cell = adapter.collectionView?.cellForItem(at: indexPath) as? EntryWideCell {
+                print("ITS WORKING")
+            }
+        }
     }
 }
 

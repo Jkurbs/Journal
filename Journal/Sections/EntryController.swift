@@ -11,6 +11,7 @@ import IGListKit
 
 class EntryController: ListSectionController {
     
+    
     private var entry: Entry?
     
     override func sizeForItem(at index: Int) -> CGSize {
@@ -26,6 +27,7 @@ class EntryController: ListSectionController {
     override init() {
         super.init()
         self.inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        workingRangeDelegate = self
     }
     
     override func numberOfItems() -> Int {
@@ -57,5 +59,28 @@ class EntryController: ListSectionController {
         if let cell = collectionContext?.cellForItem(at: index, sectionController: self) as? EntryWideCell {
             cell.playVideo()
         }
+    }
+}
+
+// MARK: - ListWorkingRangeDelegate
+
+extension EntryController: ListWorkingRangeDelegate {
+    
+    func listAdapter(_ listAdapter: ListAdapter, sectionControllerWillEnterWorkingRange sectionController: ListSectionController) {
+        print("DID ENTER WORKING RANGE")
+        
+//        sectionController.collectionContext.it
+            
+            //.visibleIndexPaths(for: self).first
+        
+//
+//            if let cell = collectionContext?.cellForItem(at: index, sectionController: self) as? EntryWideCell {
+//                print("ITS CELL")
+//        }
+    }
+    
+    func listAdapter(_ listAdapter: ListAdapter, sectionControllerDidExitWorkingRange sectionController: ListSectionController) {
+        print("DID EXIT WORKING RANGE")
+
     }
 }
