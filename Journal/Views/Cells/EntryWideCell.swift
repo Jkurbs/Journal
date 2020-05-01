@@ -36,7 +36,6 @@ class EntryWideCell: UICollectionViewCell {
         }
     }
     
-    
     var isPlaying = false
     var key = "currentItem.loadedTimeRanges"
     
@@ -45,8 +44,6 @@ class EntryWideCell: UICollectionViewCell {
         playerLayer?.removeFromSuperlayer()
         player?.pause()
     }
-    
-
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,32 +70,43 @@ class EntryWideCell: UICollectionViewCell {
         
         videoLenghtLabel.text = "5:60"
         videoLenghtLabel.textColor = .systemGray5
-        videoLenghtLabel.font = UIFont.systemFont(ofSize: 11, weight: .regular)
+        videoLenghtLabel.font = UIFont.monospacedSystemFont(ofSize: 11, weight: .regular)
         videoLenghtLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(videoLenghtLabel)
         
+        
+        let thumbImageConfiguration = UIImage.SymbolConfiguration(scale: .small)
+        let thumbButtonImage = UIImage(systemName: "circle.fill", withConfiguration: thumbImageConfiguration)!
+        let thumbImage = thumbButtonImage.withTintColor(.cloud, renderingMode: .alwaysOriginal)
+        
         slider.tintColor = .lightText
-        slider.setThumbImage(UIImage() , for: .normal)
+        slider.setThumbImage(thumbImage , for: .normal)
         slider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(slider)
         
-        let interval = CMTime(seconds: 0.05, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsedTime in
-            self.updateSlider(elapsedTime: elapsedTime)
-        })
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(notification:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player?.currentItem)
     }
     
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == key {
-            print("OBSERVING")
             isPlaying = true
+            if let duration = player?.currentItem?.duration {
+                let durationSeconds = CMTimeGetSeconds(duration)
+                let interval = CMTime(value: 1, timescale: 2)
+                player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { (time) in
+                    let seconds = CMTimeGetSeconds(time)
+                    let ramainder = durationSeconds - seconds
+                    let secondsText = Int(ramainder) % 60
+                    let minutesText = String(format: "%02d", Int(ramainder) / 60)
+                    self.slider.value = Float(seconds/durationSeconds)
+                    self.videoLenghtLabel.text = "\(minutesText):\(secondsText)"
+                })
+            }
         }
     }
     
-    
-    
-    
+ 
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -136,29 +144,21 @@ class EntryWideCell: UICollectionViewCell {
             contentView.layer.addSublayer(playerLayer!)
             
             self.playerLayer?.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.size.width, height: self.contentView.frame.size.height - 40)
-            player?.play()
-            
             player?.addObserver(self, forKeyPath: key, options: .new, context: nil)
-            
-            
-            let interval = CMTime(seconds: 0.05, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-            timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsedTime in
-                self.updateSlider(elapsedTime: elapsedTime)
-            })
+            player?.play()
+            slider.addTarget(self, action: #selector(handleSliderChange), for: .valueChanged)
         }
     }
     
     @objc func pauseVideo() {
         if isPlaying {
-            print("ITS PLAYING")
             player?.pause()
             mediaButton.setImage(playImage, for: .normal)
         } else {
-            print("NOT PLAYING")
             player?.play()
             mediaButton.setImage(pauseImage, for: .normal)
         }
-        _ = isPlaying != isPlaying
+       isPlaying = !isPlaying
     }
     
     @objc func playVideo() {
@@ -168,30 +168,21 @@ class EntryWideCell: UICollectionViewCell {
     }
     
     @objc func playerItemDidReachEnd(notification: NSNotification) {
-        self.player?.seek(to: CMTime.zero)
-        self.player?.play()
+        player?.seek(to: .zero)
+        mediaButton.setImage(playImage, for: .normal)
     }
     
-    func updateSlider(elapsedTime: CMTime) {
-        let playerDuration = playerItemDuration()
-        if CMTIME_IS_INVALID(playerDuration) {
-            slider.minimumValue = 0.0
-            return
+    @objc func handleSliderChange() {
+        
+        if let duration = player?.currentItem?.duration {
+            let totalSeconds = CMTimeGetSeconds(duration)
+            
+            let value = Float64(slider.value) * totalSeconds
+            let seekTime = CMTime(value: Int64(value), timescale: 1)
+            
+            player?.seek(to: seekTime, completionHandler: { _ in
+                // Perhaps do something later
+            })
         }
-        let duration = Float(CMTimeGetSeconds(playerDuration))
-        if duration.isFinite && duration > 0 {
-            slider.minimumValue = 0.0
-            slider.maximumValue = duration
-            let time = Float(CMTimeGetSeconds(elapsedTime))
-            slider.setValue(time, animated: true)
-        }
-    }
-    
-    private func playerItemDuration() -> CMTime {
-        let thePlayerItem = player?.currentItem
-        if thePlayerItem?.status == .readyToPlay {
-            return thePlayerItem!.duration
-        }
-        return CMTime.invalid
     }
 }

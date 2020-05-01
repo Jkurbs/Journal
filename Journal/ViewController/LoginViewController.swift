@@ -13,21 +13,31 @@ import AuthenticationServices
 
 class LoginViewController: UIViewController {
     
+    // MARK: - Properties
+    
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
     let learnButton = UIButton()
     let imageView = UIImageView()
     let loginProviderStackView = UIStackView()
-
+    
+    fileprivate var currentNonce: String?
+    
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupViews()
     }
     
     func setupViews() {
         
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .systemBackground
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
         
         titleLabel.text = "Welcome to Journal"
         titleLabel.font = UIFont.systemFont(ofSize: 35, weight: .semibold)
@@ -46,7 +56,7 @@ class LoginViewController: UIViewController {
         learnButton.setTitleColor(.label, for: .normal)
         learnButton.titleLabel?.font  = UIFont.systemFont(ofSize: 14)
         learnButton.translatesAutoresizingMaskIntoConstraints = false
-
+        
         learnButton.addTarget(self, action: #selector(handleLearnMore), for: .touchUpInside)
         
         let imageConfiguration = UIImage.SymbolConfiguration(scale: .default)
@@ -71,52 +81,19 @@ class LoginViewController: UIViewController {
         setupProviderLoginView()
     }
     
+    // MARK: - Functions
     
     @objc func handleLearnMore() {
         navigationController?.pushViewController(LearnMoreViewController(), animated: true)
     }
     
-    
-    
-    /// - Tag: add_appleid_button
-    func setupProviderLoginView() {
-        let authorizationButton = ASAuthorizationAppleIDButton()
-        authorizationButton.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
-        self.loginProviderStackView.addArrangedSubview(authorizationButton)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        setupConstraints()
-    }
-    
-    fileprivate var currentNonce: String?
-
-    
-    @objc func handleAuthorizationAppleIDButtonPress() {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        
-        self.currentNonce = AuthService.shared.randomNonceString()
-        // Set the SHA256 hashed nonce to ASAuthorizationAppleIDRequest
-        request.nonce = AuthService.shared.sha256(currentNonce!)
-
-        // Present Apple authorization form
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
-        authorizationController.performRequests()
-    }
-    
     func setupConstraints() {
         NSLayoutConstraint.activate([
-        
+            
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 150.0),
             titleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -48.0),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
+            
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8.0),
             descriptionLabel.widthAnchor.constraint(equalTo: titleLabel.widthAnchor),
             descriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -135,9 +112,48 @@ class LoginViewController: UIViewController {
             loginProviderStackView.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+    
+    
+    /// - Tag: add_appleid_button
+    func setupProviderLoginView() {
+        let authorizationButton = ASAuthorizationAppleIDButton()
+        authorizationButton.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
+        self.loginProviderStackView.addArrangedSubview(authorizationButton)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupConstraints()
+    }
 }
 
+
+// MARK: - ASAuthorizationControllerDelegate
+
 extension LoginViewController: ASAuthorizationControllerDelegate {
+    
+    
+    
+    @objc func handleAuthorizationAppleIDButtonPress() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        self.currentNonce = AuthService.shared.randomNonceString()
+        // Set the SHA256 hashed nonce to ASAuthorizationAppleIDRequest
+        request.nonce = AuthService.shared.sha256(currentNonce!)
+        
+        // Present Apple authorization form
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+        authorizationController.performRequests()
+    }
+    
+    
+    
+    
     /// - Tag: did_complete_authorization
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         switch authorization.credential {
@@ -154,7 +170,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
-
+            
             // Retrieve Apple identity token
             guard let appleIDToken = appleIDCredential.identityToken else {
                 print("Failed to fetch identity token")
@@ -234,13 +250,12 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     }
 }
 
+
+// MARK: - ASAuthorizationControllerPresentationContextProviding
+
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
     /// - Tag: provide_presentation_anchor
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        
-        
-        
-        
         return self.view.window!
     }
 }

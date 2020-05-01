@@ -12,13 +12,14 @@ import SweetCurtain
 
 class EntriesViewController: UIViewController {
     
+    // MARK: - Properties
+    
     var entries = [Entry]()
     var voiceWaveView = VoiceWaveView()
     
     lazy var adapter: ListAdapter = {
         ListAdapter(updater: ListAdapterUpdater(), viewController: self)
     }()
-    
     
     var collectionView: UICollectionView!
     
@@ -28,12 +29,12 @@ class EntriesViewController: UIViewController {
         layout.scrollDirection = .horizontal
         view.showsHorizontalScrollIndicator = false
         view.isPagingEnabled = true
-//        view.translatesAutoresizingMaskIntoConstraints = false
-    
         view.isHidden = true
         self.view.addSubview(view)
         return view
     }()
+    
+    // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +81,6 @@ class EntriesViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
-        collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .darkness
         collectionView.register(EntryCell.self, forCellWithReuseIdentifier: EntryCell.id)
@@ -97,10 +97,6 @@ class EntriesViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: 200),
-            
-//            wideCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-//            wideCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
-//            wideCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
     }
     
@@ -119,6 +115,7 @@ class EntriesViewController: UIViewController {
 }
 
 // MARK: - CurtainDelegate
+
 extension EntriesViewController: CurtainDelegate {
     
     func curtain(_ curtain: Curtain, didChange heightState: CurtainHeightState) {
@@ -144,7 +141,10 @@ extension EntriesViewController: CurtainDelegate {
     }
 }
 
-extension EntriesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+
+// MARK: - UICollectionViewDataSource
+
+extension EntriesViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
@@ -156,7 +156,7 @@ extension EntriesViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EntryCell.id, for: indexPath) as! EntryCell
-        cell.contentView.backgroundColor = UIColor(red: 19.0/255.0, green: 33.0/255.0, blue: 46.0/255.0, alpha: 0.5)
+        cell.contentView.backgroundColor = .midnightBlue
         let entry = self.entries[indexPath.row]
         cell.entry = entry
         return cell
@@ -164,12 +164,12 @@ extension EntriesViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let cell = collectionView.cellForItem(at: indexPath) as! EntryCell
         curtainController?.moveCurtain(to: .max, animated: true)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
-        cell.playVideo()
     }
 }
+
+// MARK: - ListAdapterDataSource
 
 extension EntriesViewController: ListAdapterDataSource {
     

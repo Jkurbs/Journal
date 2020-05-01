@@ -79,7 +79,6 @@ class CameraViewController: UIViewController {
     
     func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(startRecording), name: .startRecordingNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(stopRecording), name: .stopRecordingNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraAccess), name: .requestCameraNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(requestCameraRotation), name: .rotateCameraNotification, object: nil)
@@ -108,7 +107,6 @@ class CameraViewController: UIViewController {
     }
     
     @objc func stopRecording() {
-        // Debug
         cameraController.stopRecording()
         curtainController?.moveCurtain(to: .mid, animated: true)
         DataService.shared.saveEtries(name: cameraController.fileName ?? "", speech: cameraController.speech ?? "", sentimen: "", date: CachedDateFormattingHelper.shared.formatTodayDate(), completion: { result in
@@ -118,7 +116,6 @@ class CameraViewController: UIViewController {
                 }
             }
         })
-
     }
     
     @objc func requestCameraRotation() {
