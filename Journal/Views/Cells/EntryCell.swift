@@ -14,7 +14,7 @@ import AVFoundation
 class EntryCell: UICollectionViewCell {
     
     let shimmerView = FBShimmeringView()
-    let imageView = UIImageView()
+    var entryImageView = UIImageView()
     var videoLenghtLabel = UILabel()
     var playerView = UIView()
     
@@ -31,8 +31,8 @@ class EntryCell: UICollectionViewCell {
     
     var entry: Entry? {
         didSet {
-            imageView.sd_setImage(with: URL(string: entry?.imageUrl ?? "")) { (image, error, type, url) in
-                self.shimmerView.isShimmering = false
+            entryImageView.sd_setImage(with: URL(string: entry?.imageUrl ?? "")) { (image, error, type, url) in
+            
             }
             configure(entry?.name ?? "")
         }
@@ -52,15 +52,14 @@ class EntryCell: UICollectionViewCell {
         layer.masksToBounds = true
         layer.cornerRadius = 2.0
         
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(imageView)
+        entryImageView.contentMode = .scaleAspectFill
+        entryImageView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(entryImageView)
         
-        videoLenghtLabel.text = "5:60"
         videoLenghtLabel.textColor = .systemGray5
         videoLenghtLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         videoLenghtLabel.translatesAutoresizingMaskIntoConstraints = false
-        imageView.addSubview(videoLenghtLabel)
+        entryImageView.addSubview(videoLenghtLabel)
         
         addSubview(shimmerView)
         shimmerView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,8 +71,8 @@ class EntryCell: UICollectionViewCell {
         shimmerView.isShimmering = true
         
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: heightAnchor),
-            imageView.widthAnchor.constraint(equalTo: widthAnchor),
+            entryImageView.heightAnchor.constraint(equalTo: heightAnchor),
+            entryImageView.widthAnchor.constraint(equalTo: widthAnchor),
             
             shimmerView.widthAnchor.constraint(equalTo: widthAnchor),
             shimmerView.heightAnchor.constraint(equalTo: heightAnchor),
@@ -88,12 +87,28 @@ class EntryCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     func configure(_ videoName: String) {
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         if let docDir : URL = urls.first {
             let videoUrl = docDir.appendingPathComponent("\(videoName).mov")
+            self.shimmerView.isShimmering = false
             player = AVPlayer(url:  videoUrl)
-//            player?.addObserver(self, forKeyPath: key, options: .new, context: nil)
+            player?.addObserver(self, forKeyPath: key, options: .new, context: nil)
+        }
+    }
+    
+    func createThumbnail(videoURL: URL) -> UIImage? {
+        let asset = AVAsset(url: videoURL)
+        let assetImgGenerate = AVAssetImageGenerator(asset: asset)
+        assetImgGenerate.appliesPreferredTrackTransform = true
+        let time = CMTimeMakeWithSeconds(Float64(1), preferredTimescale: 100)
+        do {
+            let img = try assetImgGenerate.copyCGImage(at: time, actualTime: nil)
+            let thumbnail = UIImage(cgImage: img)
+            return thumbnail
+        } catch {
+            return UIImage(named: "ico_placeholder")
         }
     }
     
@@ -101,10 +116,41 @@ class EntryCell: UICollectionViewCell {
         if keyPath == key {
             if let duration = player?.currentItem?.duration {
                 let durationSeconds = CMTimeGetSeconds(duration)
+                if durationSeconds.isNaN { return }
                 let secondsText = Int(durationSeconds) % 60
                 let minutesText = String(format: "%02d", Int(durationSeconds) / 60)
                 self.videoLenghtLabel.text = "\(minutesText):\(secondsText)"
             }
+        }
+    }
+}
+
+
+import UIKit
+import ImageIO
+import Foundation
+
+class ImageLoadOperation: Operation {
+
+    var url: URL?
+    var image: UIImage?
+    
+    init(url: URL?) {
+        self.url = url
+        super.init()
+    }
+    
+    override func main() {
+        let asset = AVAsset(url: url!)
+        let assetImgGenerate = AVAssetImageGenerator(asset: asset)
+        assetImgGenerate.appliesPreferredTrackTransform = true
+        let time = CMTimeMakeWithSeconds(Float64(1), preferredTimescale: 100)
+        do {
+            let img = try assetImgGenerate.copyCGImage(at: time, actualTime: nil)
+            let thumbnail = UIImage(cgImage: img)
+            self.image = thumbnail
+        } catch {
+            self.image = UIImage()
         }
     }
 }

@@ -1,4 +1,10 @@
 PODS:
+  - BMPlayer/CacheSupport (1.3.0):
+    - BMPlayer/Core
+    - NVActivityIndicatorView (~> 4.7.0)
+    - SnapKit (~> 5.0.0)
+    - VIMediaCache
+  - BMPlayer/Core (1.3.0)
   - Firebase/Auth (6.18.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.4.3)
@@ -65,14 +71,20 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - NVActivityIndicatorView (4.7.0):
+    - NVActivityIndicatorView/Presenter (= 4.7.0)
+  - NVActivityIndicatorView/Presenter (4.7.0)
   - PXSiriWave (0.0.2)
   - SDWebImage (5.5.2):
     - SDWebImage/Core (= 5.5.2)
   - SDWebImage/Core (5.5.2)
   - Shimmer (1.0.2)
+  - SnapKit (5.0.1)
   - SweetCurtain (0.1.2)
+  - VIMediaCache (0.4)
 
 DEPENDENCIES:
+  - BMPlayer/CacheSupport (from `https://github.com/BrikerMan/BMPlayer.git`)
   - Firebase/Auth
   - Firebase/Database
   - Firebase/Storage
@@ -100,12 +112,25 @@ SPEC REPOS:
     - IGListKit
     - leveldb-library
     - nanopb
+    - NVActivityIndicatorView
     - PXSiriWave
     - SDWebImage
     - Shimmer
+    - SnapKit
     - SweetCurtain
+    - VIMediaCache
+
+EXTERNAL SOURCES:
+  BMPlayer:
+    :git: https://github.com/BrikerMan/BMPlayer.git
+
+CHECKOUT OPTIONS:
+  BMPlayer:
+    :commit: e37be9e0b73f8ff5d1fc5991d95518342cbc80d4
+    :git: https://github.com/BrikerMan/BMPlayer.git
 
 SPEC CHECKSUMS:
+  BMPlayer: 92a1c2a721694ba6ab107661e7aff670909671c6
   Firebase: 0490eca762a72e4f1582319539153897f1508dee
   FirebaseAuth: 5ce2b03a3d7fe56b7a6e4c5ec7ff1522890b1d6f
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
@@ -122,11 +147,14 @@ SPEC CHECKSUMS:
   IGListKit: fd5a5d21935298f5849fa49d426843cff97b77c7
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
   PXSiriWave: a65c60234d03316f052209becb54a8d77883c182
   SDWebImage: 4d5c027c935438f341ed33dbac53ff9f479922ca
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SweetCurtain: 71e5680b08e1406fded312b00a7477a98f4f2a98
+  VIMediaCache: aa650f82cb114c68a343beb4e67416cf5eb2f3a2
 
-PODFILE CHECKSUM: 5e7c98b705b1ba3f32bea0c22f6ee988c7aa3b3c
+PODFILE CHECKSUM: 19e9cb4f9e115f6c63f0f168a1b3a4ef2e0d1d86
 
 COCOAPODS: 1.8.4

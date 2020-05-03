@@ -27,7 +27,7 @@ class LearnMoreViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-        titleLabel.text = "Welcome to Journal"
+        titleLabel.text = "How Journal works"
         titleLabel.font = UIFont.systemFont(ofSize: 35, weight: .semibold)
         titleLabel.textColor = UIColor.label
         titleLabel.textAlignment = .center
@@ -39,6 +39,7 @@ class LearnMoreViewController: UIViewController {
         descriptionView.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         descriptionView.translatesAutoresizingMaskIntoConstraints = false
         descriptionView.textColor = UIColor.label
+        descriptionView.backgroundColor = .red
         view.addSubview(descriptionView)
     }
     

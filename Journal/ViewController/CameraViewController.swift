@@ -74,6 +74,7 @@ class CameraViewController: UIViewController {
         
         view.addSubview(mediaAccessView)
         view.addSubview(cameraView)
+        
         addObservers()
     }
     
@@ -109,13 +110,6 @@ class CameraViewController: UIViewController {
     @objc func stopRecording() {
         cameraController.stopRecording()
         curtainController?.moveCurtain(to: .mid, animated: true)
-        DataService.shared.saveEtries(name: cameraController.fileName ?? "", speech: cameraController.speech ?? "", sentimen: "", date: CachedDateFormattingHelper.shared.formatTodayDate(), completion: { result in
-            if let _ = try? result.get() {
-                DispatchQueue.main.async {
-                    //TODO: - show alert to user
-                }
-            }
-        })
     }
     
     @objc func requestCameraRotation() {

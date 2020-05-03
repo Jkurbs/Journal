@@ -16,12 +16,14 @@ class Entry: Codable {
     var name: String!
     var speech: String!
     var sentiment: String?
+    var sentimentScore: Double?
     var date: String!
     
-    init(name: String, speech: String, sentiment: String, date: String, imageUrl: String? = "") {
+    init(name: String, speech: String, sentiment: String, sentimentScore: Double, date: String, imageUrl: String? = "") {
         self.name = name
         self.speech = speech
         self.sentiment = sentiment
+        self.sentimentScore = sentimentScore
         self.date = date
         self.imageUrl = imageUrl
     }

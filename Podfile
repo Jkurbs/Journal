@@ -13,6 +13,7 @@ target 'Journal' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'BMPlayer/CacheSupport', :git => 'https://github.com/BrikerMan/BMPlayer.git'
 
 
   

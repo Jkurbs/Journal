@@ -32,10 +32,10 @@ class DataService {
     
     typealias completion = Result<Any?, Error>
     
-    func saveEtries(name: String, speech: String, sentimen: String , date: String, completion: @escaping (completion) -> Void) {
+    func saveEtries(name: String, speech: String, sentimen: String, sentimentScore: Double, date: String, completion: @escaping (completion) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         
-        let data = ["name": name, "speech": speech, "sentiment": "", "date": date] as [String : Any]
+        let data = ["name": name, "speech": speech, "sentiment": sentimen, "sentimentScore": sentimentScore, "date": date] as [String : Any]
         self.RefEntries.child(userId).child(name).setValue(data) { (error, data) in
             if let error = error  {
                 NSLog("Error saving entries: \(error)")
@@ -72,9 +72,8 @@ class DataService {
     }
     
 func observeEntries(complete: @escaping (completion) -> Void) {
-    RefEntries.child(Auth.auth().currentUser!.uid).observe(.value) { snapshot in
+    RefEntries.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value) { snapshot in
             if snapshot.exists() {
-                print("SNAPSHOT: \(snapshot)")
                 let enumerator = snapshot.children
                 while let rest = enumerator.nextObject() as? DataSnapshot {
                     guard let data = rest.data else { return }

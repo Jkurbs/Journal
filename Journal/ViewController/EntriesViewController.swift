@@ -9,6 +9,7 @@
 import UIKit
 import IGListKit
 import SweetCurtain
+import AVFoundation
 
 class EntriesViewController: UIViewController {
     
@@ -22,17 +23,7 @@ class EntriesViewController: UIViewController {
     }()
     
     var collectionView: UICollectionView!
-    
-    lazy var wideCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        layout.scrollDirection = .horizontal
-        view.showsHorizontalScrollIndicator = false
-        view.isPagingEnabled = true
-        view.isHidden = true
-        self.view.addSubview(view)
-        return view
-    }()
+    var playerView = PlayerView()
     
     // MARK: - View Lifecycle
     
@@ -51,24 +42,16 @@ class EntriesViewController: UIViewController {
         setupConstraints()
     }
     
-    
     // MARK: - Functions
     
     func setupViews() {
-        view.backgroundColor = .darkness
-        self.navigationController?.view.layer.cornerRadius = 10.0
-        self.navigationItem.titleView = voiceWaveView
-        voiceWaveView.autoresizingMask = .flexibleWidth
+        
+        view.backgroundColor = .black
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
-        
-        wideCollectionView.frame = view.frame
-        adapter.collectionView = wideCollectionView
-        adapter.collectionViewDelegate = self
-        adapter.dataSource = self
         
         let layout = UICollectionViewFlowLayout()
         let width = (view.frame.width / 3) - 10
@@ -83,13 +66,23 @@ class EntriesViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
         collectionView.dataSource = self
-        collectionView.backgroundColor = .darkness
+        collectionView.delegate = self
+        collectionView.backgroundColor = .black
         collectionView.register(EntryCell.self, forCellWithReuseIdentifier: EntryCell.id)
         view.addSubview(collectionView)
-        self.curtainController?.moveCurtain(to: .mid, animated: true)
         
-        
+        playerView = PlayerView(frame: view.frame)
+        view.addSubview(playerView)
+                
+        NotificationCenter.default.addObserver(self, selector: #selector(addNewEntry), name: NSNotification.Name("testentry"), object: nil)
     }
+    
+    @objc func addNewEntry(_ notification: Notification) {
+        if let info = notification.userInfo, let entry = info["entry"] as? Entry {
+            self.loadData()
+        }
+    }
+    
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -102,8 +95,8 @@ class EntriesViewController: UIViewController {
     }
     
     func loadData() {
+        self.entries.removeAll()
         DataService.shared.observeEntries { result in
-            self.entries.removeAll()
             if let entry = try? result.get() as? Entry {
                 DispatchQueue.main.async {
                     self.entries.append(entry)
@@ -123,15 +116,18 @@ extension EntriesViewController: CurtainDelegate {
         case .min:
             print("")
         case .mid:
-            print("")
+            playerView.player.pause()
             collectionView.isHidden = false
-            wideCollectionView.isHidden = true
-            navigationController?.setNavigationBarHidden(false, animated: false)
+            playerView.isHidden = true
         case .max:
-            self.adapter.performUpdates(animated: true, completion: nil)
             collectionView.isHidden = true
-            wideCollectionView.isHidden = false
-            navigationController?.setNavigationBarHidden(true, animated: false)
+            playerView.isHidden = false
+            guard let indexPath = collectionView.indexPathsForSelectedItems?.first else { return }
+            let entry = self.entries[indexPath.row]
+            
+            DispatchQueue.main.async {
+                self.playerView.configure(entry)
+            }
         default:
             break
         }
@@ -145,7 +141,7 @@ extension EntriesViewController: CurtainDelegate {
 
 // MARK: - UICollectionViewDataSource
 
-extension EntriesViewController: UICollectionViewDataSource {
+extension EntriesViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
@@ -164,40 +160,9 @@ extension EntriesViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        
+        
         curtainController?.moveCurtain(to: .max, animated: true)
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
-    }
-    
-    
-}
-
-extension EntriesViewController: UICollectionViewDelegate {
-    
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if collectionView  == self.wideCollectionView {
-            
-            if let cell = adapter.collectionView?.cellForItem(at: indexPath) as? EntryWideCell {
-                print("ITS WORKING")
-            }
-        }
-    }
-}
-
-// MARK: - ListAdapterDataSource
-
-extension EntriesViewController: ListAdapterDataSource {
-    
-    func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        return entries as [ListDiffable]
-    }
-    
-    func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        return EntryController()
-    }
-    
-    func emptyView(for listAdapter: ListAdapter) -> UIView? {
-        return nil
     }
 }
